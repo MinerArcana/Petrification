@@ -1,0 +1,73 @@
+{
+    "textures": {
+        "gravel": "minecraft:blocks/gravel",
+        "1": "minecraft:blocks/cobblestone"
+    },
+    "elements": [
+        {
+            "name": "Nest Bottom",
+            "from": [ 3.0, 0.0, 3.0 ], 
+            "to": [ 13.0, 2.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side North",
+            "from": [ 3.0, 2.0, 1.0 ], 
+            "to": [ 13.0, 4.0, 3.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side South",
+            "from": [ 3.0, 2.0, 13.0 ], 
+            "to": [ 13.0, 4.0, 15.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side West",
+            "from": [ 1.0, 2.0, 3.0 ], 
+            "to": [ 3.0, 4.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side East",
+            "from": [ 13.0, 2.0, 3.0 ], 
+            "to": [ 15.0, 4.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] }
+            }
+        }
+    ]
+}

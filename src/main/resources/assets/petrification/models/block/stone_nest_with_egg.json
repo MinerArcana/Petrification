@@ -1,0 +1,125 @@
+{
+    "textures": {
+        "gravel": "minecraft:blocks/gravel",
+        "cobblestone": "minecraft:blocks/cobblestone"
+    },
+    "elements": [
+        {
+            "name": "Nest Bottom",
+            "from": [ 3.0, 0.0, 3.0 ], 
+            "to": [ 13.0, 2.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side North",
+            "from": [ 3.0, 2.0, 1.0 ], 
+            "to": [ 13.0, 4.0, 3.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side South",
+            "from": [ 3.0, 2.0, 13.0 ], 
+            "to": [ 13.0, 4.0, 15.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side West",
+            "from": [ 1.0, 2.0, 3.0 ], 
+            "to": [ 3.0, 4.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "Nest Side East",
+            "from": [ 13.0, 2.0, 3.0 ], 
+            "to": [ 15.0, 4.0, 13.0 ], 
+            "faces": {
+                "north": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "south": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#gravel", "uv": [ 0.0, 0.0, 10.0, 2.0 ] },
+                "up": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] },
+                "down": { "texture": "#gravel", "uv": [ 0.0, 0.0, 2.0, 10.0 ] }
+            }
+        },
+        {
+            "name": "Egg Bottom",
+            "from": [ 6.0, 2.0, 6.0 ], 
+            "to": [ 10.0, 3.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "east": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "south": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "west": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "up": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 4.0 ] },
+                "down": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 4.0 ] }
+            }
+        },
+        {
+            "name": "Egg Middle",
+            "from": [ 5.0, 3.0, 5.0 ], 
+            "to": [ 11.0, 7.0, 11.0 ], 
+            "faces": {
+                "north": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 4.0 ] },
+                "east": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 4.0 ] },
+                "south": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 4.0 ] },
+                "west": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 4.0 ] },
+                "up": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 6.0 ] },
+                "down": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 6.0, 6.0 ] }
+            }
+        },
+        {
+            "name": "Egg Top",
+            "from": [ 6.0, 7.0, 6.0 ], 
+            "to": [ 10.0, 8.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "east": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "south": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "west": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "up": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 4.0 ] },
+                "down": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 4.0, 4.0 ] }
+            }
+        },
+        {
+            "name": "Egg Point",
+            "from": [ 7.0, 8.0, 7.0 ], 
+            "to": [ 9.0, 9.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "east": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "south": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "west": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "up": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "down": { "texture": "#cobblestone", "uv": [ 0.0, 0.0, 2.0, 2.0 ] }
+            }
+        }
+    ]
+}

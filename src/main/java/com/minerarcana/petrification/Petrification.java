@@ -1,5 +1,7 @@
 package com.minerarcana.petrification;
 
+import com.minerarcana.petrification.item.CreativeTabPetrification;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,6 +21,8 @@ public class Petrification {
 
     @Instance
     public static Petrification instance;
+    public static CreativeTabs petrificationTab = new CreativeTabPetrification();
+
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

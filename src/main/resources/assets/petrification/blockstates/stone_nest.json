@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "petrification:stone_nest_empty",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "egg=false": [{}],
+    "egg=true": {
+      "model": "petrification:stone_nest_with_egg"
+    }
+  }
+}
