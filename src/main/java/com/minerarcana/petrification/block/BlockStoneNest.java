@@ -1,6 +1,7 @@
 package com.minerarcana.petrification.block;
 
 import com.minerarcana.petrification.Petrification;
+import com.minerarcana.petrification.entity.EntityCockatrice;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -47,7 +48,12 @@ public class BlockStoneNest extends Block {
     }
 
     private void spawnCockatrice(World world, BlockPos pos) {
-
+        EntityCockatrice entityCockatrice = new EntityCockatrice(world);
+        entityCockatrice.setPosition(pos.getX(), pos.getY(), pos.getZ());
+        if (!world.isRemote) {
+            world.spawnEntity(entityCockatrice);
+        }
+        world.setBlockState(pos, this.blockState.getBaseState().withProperty(EGG, false), 4);
     }
 
     @Override

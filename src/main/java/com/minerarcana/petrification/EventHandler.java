@@ -2,22 +2,29 @@ package com.minerarcana.petrification;
 
 import com.google.common.collect.Lists;
 import com.minerarcana.petrification.block.BlockStoneNest;
+import com.minerarcana.petrification.entity.EntityCockatrice;
 import com.minerarcana.petrification.item.CreativeTabPetrification;
 import com.minerarcana.petrification.item.ItemBlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,5 +54,14 @@ public class EventHandler {
                 new ModelResourceLocation(itemStoneNest.getRegistryName(), "egg=true"));
         ModelLoader.setCustomModelResourceLocation(itemStoneNest, 1,
                 new ModelResourceLocation(itemStoneNest.getRegistryName(), "egg=false"));
+    }
+
+    @SubscribeEvent
+    public static void registerEntities(RegistryEvent.Register<EntityEntry> entityRegistryEvent) {
+        int id = 0;
+        ResourceLocation cockatriceRL = new ResourceLocation(MODID, EntityCockatrice.NAME);
+        EntityRegistry.registerModEntity(cockatriceRL, EntityCockatrice.class, EntityCockatrice.NAME, id,
+                Petrification.instance, 64, 8, true);
+        EntityRegistry.registerEgg(cockatriceRL, Color.GRAY.getRGB(), Color.DARK_GRAY.getRGB());
     }
 }

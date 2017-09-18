@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class Cockatrice extends ModelBase {
+public class ModelCockatrice extends ModelBase {
     public ModelRenderer beak;
     public ModelRenderer legRight;
     public ModelRenderer rightWing1;
@@ -27,7 +27,7 @@ public class Cockatrice extends ModelBase {
     public ModelRenderer tail3;
     public ModelRenderer tail2;
 
-    public Cockatrice() {
+    public ModelCockatrice() {
         this.textureWidth = 64;
         this.textureHeight = 32;
 
