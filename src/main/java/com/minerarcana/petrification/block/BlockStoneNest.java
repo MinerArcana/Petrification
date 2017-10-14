@@ -42,7 +42,7 @@ public class BlockStoneNest extends Block {
     @Override
     @ParametersAreNonnullByDefault
     public void randomTick(World world, BlockPos pos, IBlockState state, Random random) {
-        if (state.getValue(EGG) && world.provider.getMoonPhase(world.getWorldTime()) == 0) {
+        if (state.getValue(EGG) && !world.provider.isDaytime() && world.provider.getMoonPhase(world.getWorldTime()) == 5) {
             spawnCockatrice(world, pos);
         }
     }
