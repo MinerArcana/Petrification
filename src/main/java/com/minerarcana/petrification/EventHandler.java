@@ -1,21 +1,21 @@
 package com.minerarcana.petrification;
 
-import com.google.common.collect.Lists;
 import com.minerarcana.petrification.block.BlockStoneNest;
 import com.minerarcana.petrification.entity.EntityCockatrice;
-import com.minerarcana.petrification.item.CreativeTabPetrification;
 import com.minerarcana.petrification.item.ItemBlockBase;
+import com.minerarcana.petrification.potion.PotionBase;
+import com.minerarcana.petrification.potion.PotionEffectPetrification;
+import com.minerarcana.petrification.potion.PotionEffectRevivify;
+import com.minerarcana.petrification.potion.PotionTypeBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -25,7 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Objects;
 
 import static com.minerarcana.petrification.Petrification.MODID;
@@ -63,5 +62,20 @@ public class EventHandler {
         EntityRegistry.registerModEntity(cockatriceRL, EntityCockatrice.class, EntityCockatrice.NAME, id,
                 Petrification.instance, 64, 8, true);
         EntityRegistry.registerEgg(cockatriceRL, Color.GRAY.getRGB(), Color.DARK_GRAY.getRGB());
+    }
+
+    private static Potion petrification = new PotionBase("petrification", true, Color.GRAY.getRGB(), 0);
+    private static Potion revivify = new PotionBase("revivify", false, Color.WHITE.getRGB(), 1);
+
+    @SubscribeEvent
+    public static void registerPotions(RegistryEvent.Register<Potion> potionRegistryEvent) {
+        potionRegistryEvent.getRegistry().register(petrification);
+        potionRegistryEvent.getRegistry().register(revivify);
+    }
+
+    @SubscribeEvent
+    public static void registerPotionTypes(RegistryEvent.Register<PotionType> potionTypeRegistryEvent) {
+        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("petrification", new PotionEffectPetrification(petrification)));
+        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("revivify", new PotionEffectRevivify(revivify)));
     }
 }
