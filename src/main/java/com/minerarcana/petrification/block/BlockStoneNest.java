@@ -23,8 +23,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 public class BlockStoneNest extends Block {
-    private final static PropertyBool EGG = PropertyBool.create("egg");
-    public static final AxisAlignedBB FULL_BLOCK_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    public final static PropertyBool EGG = PropertyBool.create("egg");
+    public final static AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
     public final static String NAME = "stone_nest";
 
     public BlockStoneNest() {
@@ -71,7 +71,7 @@ public class BlockStoneNest extends Block {
     @Nonnull
     @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FULL_BLOCK_AABB;
+        return BLOCK_AABB;
     }
 
     @Override
@@ -102,5 +102,4 @@ public class BlockStoneNest extends Block {
         items.add(new ItemStack(this, 1, 0));
         items.add(new ItemStack(this, 1, 1));
     }
-
 }

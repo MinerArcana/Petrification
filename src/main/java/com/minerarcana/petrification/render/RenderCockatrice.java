@@ -19,13 +19,6 @@ public class RenderCockatrice extends RenderLiving<EntityCockatrice> {
         super(renderManager, new ModelCockatrice(), 0.3F);
     }
 
-    @Override
-    protected float handleRotationFloat(EntityCockatrice livingBase, float partialTicks) {
-        float f = livingBase.oFlap + (livingBase.wingRotation - livingBase.oFlap) * partialTicks;
-        float f1 = livingBase.oFlapSpeed + (livingBase.destPos - livingBase.oFlapSpeed) * partialTicks;
-        return (MathHelper.sin(f) + 1.0F) * f1;
-    }
-
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityCockatrice entity) {
