@@ -26,9 +26,14 @@ minecraft {
 
 repositories {
     mavenCentral()
+    maven {
+        name = "craftstudio"
+        url = "http://maven.leviathan-studio.com/artifactory/leviathan/"
+    }
 }
 
 dependencies {
+    deobfCompile 'com.leviathanstudio:CraftStudio:1.0.0.93-mc1.12-alpha'
 }
 
 processResources {
