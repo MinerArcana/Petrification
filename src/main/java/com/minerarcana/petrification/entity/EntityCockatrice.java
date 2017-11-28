@@ -1,10 +1,12 @@
 package com.minerarcana.petrification.entity;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.minerarcana.petrification.entity.ai.EntityAILayEgg;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.pathfinding.PathNodeType;
@@ -14,13 +16,23 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class EntityCockatrice extends EntityMob {
+import static com.minerarcana.petrification.Petrification.MODID;
+
+public class EntityCockatrice extends EntityMobAnimated {
     
     public static final String NAME = "cockatrice";
     
     private int timeUntilNextEgg;
     private BlockPos nestPosition;
-    
+
+    private final static AnimationHandler<EntityCockatrice> ANIMATION_HANDLER = CraftStudioApi.getNewAnimationHandler(EntityCockatrice.class);
+
+    private final static String POISONOUS_BREATH = "poisonous_breath";
+
+    static {
+        EntityCockatrice.ANIMATION_HANDLER.addAnim(MODID, POISONOUS_BREATH, NAME, false);
+    }
+
     public EntityCockatrice(World worldIn) {
         super(worldIn);
         this.setSize(0.4F, 0.7F);
@@ -52,6 +64,19 @@ public class EntityCockatrice extends EntityMob {
         if(!this.onGround && this.motionY < 0.0D) {
             this.motionY *= 0.6D;
         }
+    }
+
+    @Override
+    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+        if (this.isWorldRemote()) {
+            doBreathAttack();
+        }
+        return true;
+    }
+
+
+    public void doBreathAttack() {
+        ANIMATION_HANDLER.startAnimation(MODID, POISONOUS_BREATH, this);
     }
     
     @Override
@@ -100,5 +125,11 @@ public class EntityCockatrice extends EntityMob {
     
     public void resetTimeUntilNextEgg() {
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends IAnimated> AnimationHandler<T> getAnimationHandler() {
+        return (AnimationHandler<T>) ANIMATION_HANDLER;
     }
 }

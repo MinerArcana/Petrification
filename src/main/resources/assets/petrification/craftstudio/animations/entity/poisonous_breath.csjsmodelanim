@@ -1,0 +1,217 @@
+{
+  "title": "Poisonous breath",
+  "duration": 120,
+  "holdLastKeyframe": true,
+  "nodeAnimations": {
+    "wingLeft1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -8.797471E-22, -1.006313E-14, -1.001791E-05 ],
+        "20": [ -20, 1.823111E-06, -1.033938E-05 ],
+        "50": [ -39.27344, 8.290125, 62.03751 ]
+      },
+      "stretch": {
+      }
+    },
+    "wingLeft2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -1.005343E-06, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "wingRight1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -9.659345E-06, 0, 0 ],
+        "20": [ 340, 1.823111E-06, -1.033937E-05 ],
+        "50": [ -39.27345, -8.290122, -62.03751 ]
+      },
+      "stretch": {
+      }
+    },
+    "body": {
+      "position": {
+        "0": [ 0, 0, 0 ]
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ -10, 0, 0 ],
+        "50": [ 30, 2.891922E-06, 7.748882E-07 ]
+      },
+      "stretch": {
+      }
+    },
+    "legRight": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ 9.999992, 0, 0 ],
+        "50": [ -30, -2.891922E-06, 1.07928E-05 ]
+      },
+      "stretch": {
+      }
+    },
+    "legLeft": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ 10, 0, 0 ],
+        "50": [ 330, -2.891922E-06, 1.07928E-05 ]
+      },
+      "stretch": {
+      }
+    },
+    "head": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 9.659345E-06, 0, 0 ],
+        "20": [ 10.00001, -8.832143E-07, -7.727143E-08 ],
+        "30": [ 9.659345E-06, 0, 0 ],
+        "50": [ -12.19907, 21.99054, 2.621138 ],
+        "90": [ -16.66576, -31.23252, 9.688765 ]
+      },
+      "stretch": {
+      }
+    },
+    "beakTop": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 360, -5.008956E-06, 5.008957E-06 ],
+        "50": [ 340, 5.008956E-06, -5.008957E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "beakBottom": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 360, -5.008956E-06, 5.008957E-06 ],
+        "50": [ 39.99999, 5.008955E-06, -5.008957E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tail1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ -10, -8.832144E-07, 1.009518E-05 ],
+        "30": [ -8.797471E-22, -1.006313E-14, -1.001791E-05 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tail2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ 10, 0, 0 ],
+        "30": [ 0, 0, 0 ],
+        "50": [ 15, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tail3": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "30": [ 0, 0, 0 ],
+        "50": [ -10, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tail4": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ 5, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tail5": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ -5, 0, 0 ],
+        "40": [ 0, 0, 0 ],
+        "50": [ -5, 0, 0 ]
+      },
+      "stretch": {
+      }
+    }
+  }
+}
