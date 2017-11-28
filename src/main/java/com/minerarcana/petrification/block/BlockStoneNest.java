@@ -36,6 +36,7 @@ public class BlockStoneNest extends Block {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setTickRandomly(true);
+        this.setLightOpacity(0);
         this.fullBlock = false;
     }
 
