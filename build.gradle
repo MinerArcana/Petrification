@@ -30,10 +30,15 @@ repositories {
         name = "craftstudio"
         url = "http://maven.leviathan-studio.com/artifactory/leviathan/"
     }
+    maven {
+        name = "TAC"
+        url = "http://maven.blamejared.com"
+    }
 }
 
 dependencies {
-    deobfCompile 'com.leviathanstudio:CraftStudio:1.0.0.93-mc1.12-alpha'
+    deobfCompile "com.leviathanstudio:CraftStudio:${craftstudio_version}"
+    deobfCompile "com.teamacronymcoders.base:base:1.12-${base_version}"
 }
 
 processResources {
