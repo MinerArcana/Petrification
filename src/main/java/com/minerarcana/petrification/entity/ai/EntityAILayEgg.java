@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class EntityAILayEgg extends EntityAIBase {
     @ObjectHolder(Petrification.MODID + ":" + BlockStoneNest.NAME)
-    private Block stoneNest;
+    private static Block stoneNest;
     
     private EntityCockatrice entityCockatrice;
     
