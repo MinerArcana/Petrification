@@ -12,8 +12,11 @@ import static com.minerarcana.petrification.Petrification.MODID;
 public class PotionBase extends Potion {
     private static final ResourceLocation texture = new ResourceLocation(MODID, "textures/potion/potions.png");
 
-    public PotionBase(String name, boolean isBadEffect, int liquidColor, int iconLocation) {
+    private boolean isInstant;
+
+    public PotionBase(String name, boolean isBadEffect, int liquidColor, int iconLocation, boolean isInstant) {
         super(isBadEffect, liquidColor);
+        this.isInstant = isInstant;
         this.setPotionName("potion." + name);
         this.setRegistryName(new ResourceLocation(Petrification.MODID, name));
         this.setIconIndex(iconLocation % 8, iconLocation / 8);
@@ -30,5 +33,10 @@ public class PotionBase extends Potion {
     public boolean isReady(int duration, int amplifier) {
         int k = 20 >> amplifier;
         return k <= 0 || duration % k == 0;
+    }
+
+    @Override
+    public boolean isInstant() {
+        return isInstant;
     }
 }
