@@ -4,8 +4,6 @@ import com.minerarcana.petrification.block.BlockStoneNest;
 import com.minerarcana.petrification.entity.EntityCockatrice;
 import com.minerarcana.petrification.item.ItemBlockBase;
 import com.minerarcana.petrification.potion.PotionBase;
-import com.minerarcana.petrification.potion.PotionEffectPetrification;
-import com.minerarcana.petrification.potion.PotionEffectRevivify;
 import com.minerarcana.petrification.potion.PotionTypeBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -70,9 +68,4 @@ public class EventHandler {
         potionRegistryEvent.getRegistry().register(PotionBase.REVIVIFY);
     }
 
-    @SubscribeEvent
-    public static void registerPotionTypes(RegistryEvent.Register<PotionType> potionTypeRegistryEvent) {
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("petrification", new PotionEffectPetrification(PotionBase.PETRIFICATION)));
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("revivify", new PotionEffectRevivify(PotionBase.REVIVIFY)));
-    }
 }
