@@ -1,7 +1,7 @@
 itemGroup.petrification=Petrification
 
-potion.effect.revivify=Potion Of Revivify
-potion.effect.petrification=Potion of Petrification
+potion.revivify=Potion Of Revivify
+potion.petrification=Potion of Petrification
 
 tile.stone_nest.name=Stone Nest
 
