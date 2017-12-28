@@ -64,18 +64,15 @@ public class EventHandler {
         EntityRegistry.registerEgg(cockatriceRL, Color.GRAY.getRGB(), Color.DARK_GRAY.getRGB());
     }
 
-    private static Potion petrification = new PotionBase("petrification", true, Color.GRAY.getRGB(), 0, false);
-    private static Potion revivify = new PotionBase("revivify", false, Color.WHITE.getRGB(), 1, true);
-
     @SubscribeEvent
     public static void registerPotions(RegistryEvent.Register<Potion> potionRegistryEvent) {
-        potionRegistryEvent.getRegistry().register(petrification);
-        potionRegistryEvent.getRegistry().register(revivify);
+        potionRegistryEvent.getRegistry().register(PotionBase.PETRIFICATION);
+        potionRegistryEvent.getRegistry().register(PotionBase.REVIVIFY);
     }
 
     @SubscribeEvent
     public static void registerPotionTypes(RegistryEvent.Register<PotionType> potionTypeRegistryEvent) {
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("petrification", new PotionEffectPetrification(petrification)));
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("revivify", new PotionEffectRevivify(revivify)));
+        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("petrification", new PotionEffectPetrification(PotionBase.PETRIFICATION)));
+        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("revivify", new PotionEffectRevivify(PotionBase.REVIVIFY)));
     }
 }

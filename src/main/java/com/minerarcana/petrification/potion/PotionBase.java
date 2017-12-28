@@ -7,9 +7,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.*;
+
 import static com.minerarcana.petrification.Petrification.MODID;
 
 public class PotionBase extends Potion {
+
+    public static final Potion PETRIFICATION = new PotionBase("petrification", true, Color.GRAY.getRGB(), 0, false);
+    public static final Potion REVIVIFY = new PotionBase("revivify", false, Color.WHITE.getRGB(), 1, true);
+
     private static final ResourceLocation texture = new ResourceLocation(MODID, "textures/potion/potions.png");
 
     private boolean isInstant;
