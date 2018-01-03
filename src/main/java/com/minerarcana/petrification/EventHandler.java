@@ -4,15 +4,11 @@ import com.minerarcana.petrification.block.BlockStoneNest;
 import com.minerarcana.petrification.entity.EntityCockatrice;
 import com.minerarcana.petrification.item.ItemBlockBase;
 import com.minerarcana.petrification.potion.PotionBase;
-import com.minerarcana.petrification.potion.PotionEffectPetrification;
-import com.minerarcana.petrification.potion.PotionEffectRevivify;
-import com.minerarcana.petrification.potion.PotionTypeBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -64,18 +60,10 @@ public class EventHandler {
         EntityRegistry.registerEgg(cockatriceRL, Color.GRAY.getRGB(), Color.DARK_GRAY.getRGB());
     }
 
-    private static Potion petrification = new PotionBase("petrification", true, Color.GRAY.getRGB(), 0);
-    private static Potion revivify = new PotionBase("revivify", false, Color.WHITE.getRGB(), 1);
-
     @SubscribeEvent
     public static void registerPotions(RegistryEvent.Register<Potion> potionRegistryEvent) {
-        potionRegistryEvent.getRegistry().register(petrification);
-        potionRegistryEvent.getRegistry().register(revivify);
+        potionRegistryEvent.getRegistry().register(PotionBase.PETRIFICATION);
+        potionRegistryEvent.getRegistry().register(PotionBase.REVIVIFY);
     }
 
-    @SubscribeEvent
-    public static void registerPotionTypes(RegistryEvent.Register<PotionType> potionTypeRegistryEvent) {
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("petrification", new PotionEffectPetrification(petrification)));
-        potionTypeRegistryEvent.getRegistry().register(new PotionTypeBase("revivify", new PotionEffectRevivify(revivify)));
-    }
 }

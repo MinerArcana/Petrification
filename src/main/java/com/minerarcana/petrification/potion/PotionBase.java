@@ -10,6 +10,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import static com.minerarcana.petrification.Petrification.MODID;
 
 public class PotionBase extends Potion {
+
+    public static final Potion PETRIFICATION = new PotionPetrification();
+    public static final Potion REVIVIFY = new PotionRevivify();
+
     private static final ResourceLocation texture = new ResourceLocation(MODID, "textures/potion/potions.png");
 
     public PotionBase(String name, boolean isBadEffect, int liquidColor, int iconLocation) {
@@ -28,7 +32,6 @@ public class PotionBase extends Potion {
 
     @Override
     public boolean isReady(int duration, int amplifier) {
-        int k = 20 >> amplifier;
-        return k <= 0 || duration % k == 0;
+        return true;
     }
 }
