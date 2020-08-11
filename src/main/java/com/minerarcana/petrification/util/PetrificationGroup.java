@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 public class PetrificationGroup extends ItemGroup {
 
     public PetrificationGroup() {
-        super(ItemGroup.GROUPS.length, "petrification_group");
+        super(ItemGroup.GROUPS.length, "petrification");
     }
 
     @Override

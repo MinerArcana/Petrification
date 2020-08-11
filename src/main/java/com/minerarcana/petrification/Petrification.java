@@ -1,9 +1,7 @@
 package com.minerarcana.petrification;
 
 import com.minerarcana.petrification.client.StatueRenderer;
-import com.minerarcana.petrification.content.PetrificationBlocks;
-import com.minerarcana.petrification.content.PetrificationEffects;
-import com.minerarcana.petrification.content.PetrificationPotions;
+import com.minerarcana.petrification.content.*;
 import com.minerarcana.petrification.util.PetrificationGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -38,6 +36,8 @@ public class Petrification
     public Petrification() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         PetrificationBlocks.register(bus);
+        PetrificationItems.register(bus);
+        PetrificationEntities.register(bus);
         PetrificationEffects.register(bus);
         PetrificationPotions.register(bus);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
