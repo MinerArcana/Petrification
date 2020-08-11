@@ -1,6 +1,9 @@
 package com.minerarcana.petrification.content;
 
+import com.minerarcana.petrification.blocks.PetrifiedTileBlock;
 import com.minerarcana.petrification.blocks.StatueBottomBlock;
+import com.minerarcana.petrification.item.PetrifiedTileItem;
+import com.minerarcana.petrification.tileentities.PetrifiedTile;
 import com.minerarcana.petrification.tileentities.StatueTile;
 import com.minerarcana.petrification.util.BlockRegistryObjectGroup;
 import net.minecraft.block.Block;
@@ -23,7 +26,10 @@ public class PetrificationBlocks {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
 
     public static final BlockRegistryObjectGroup<StatueBottomBlock, BlockItem, StatueTile> ENTITY_STATUE =
-            new BlockRegistryObjectGroup<>("statue", StatueBottomBlock::new,blockItemCreator(), StatueTile::new).register(BLOCKS,ITEMS,TILE_ENTITIES);
+            new BlockRegistryObjectGroup<>("statue", StatueBottomBlock::new, blockItemCreator(), StatueTile::new).register(BLOCKS, ITEMS, TILE_ENTITIES);
+
+    public static final BlockRegistryObjectGroup<PetrifiedTileBlock, PetrifiedTileItem, PetrifiedTile> PETRIFIED_TILE =
+            new BlockRegistryObjectGroup<>("petrified_tile", PetrifiedTileBlock::new, petrifiedTileCreator(), PetrifiedTile::new).register(BLOCKS, ITEMS, TILE_ENTITIES);
 
 
     public static void register(IEventBus modBus) {
@@ -34,5 +40,9 @@ public class PetrificationBlocks {
 
     public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().group(PG));
+    }
+
+    public static <B extends Block> Function<B, PetrifiedTileItem> petrifiedTileCreator() {
+        return block -> new PetrifiedTileItem(block, new Item.Properties());
     }
 }

@@ -36,7 +36,6 @@ public class StoneNestBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        World world = context.getWorld();
         return this.getDefaultState().with(EGG, FALSE);
     }
 

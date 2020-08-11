@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import static com.minerarcana.petrification.Petrification.MOD_ID;
 import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
 import static com.minerarcana.petrification.content.PetrificationEffects.PETRIFICATION;
+import static com.minerarcana.petrification.content.PetrificationEffects.REVIVIFY;
 import static com.minerarcana.petrification.content.PetrificationItems.STONETOMB_TOTEM;
 import static com.minerarcana.petrification.util.StaticMethodHandler.setTombStatue;
 
@@ -39,9 +40,9 @@ public class ForgeEvents {
     @SubscribeEvent
     public static void potionExpireEvent(PotionEvent.PotionExpiryEvent event) {
         EffectInstance eI = event.getPotionEffect();
-        if(eI.getPotion().equals(PETRIFICATION.get())){
+        LivingEntity entity = event.getEntityLiving();
+        if(eI.getPotion().equals(PETRIFICATION.get()) && !entity.isPotionActive(REVIVIFY.get())){
             if(eI.getEffectInstance().getAmplifier() >=9){
-                LivingEntity entity = event.getEntityLiving();
                 entity.onDeath(new DamageSource("petrification"));
                 setTombStatue(entity);
             }
