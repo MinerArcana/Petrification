@@ -2,6 +2,7 @@ package com.minerarcana.petrification.content;
 
 import com.minerarcana.petrification.blocks.PetrifiedTileBlock;
 import com.minerarcana.petrification.blocks.StatueBottomBlock;
+import com.minerarcana.petrification.blocks.StoneNestBlock;
 import com.minerarcana.petrification.item.PetrifiedTileItem;
 import com.minerarcana.petrification.tileentities.PetrifiedTile;
 import com.minerarcana.petrification.tileentities.StatueTile;
@@ -30,6 +31,9 @@ public class PetrificationBlocks {
 
     public static final BlockRegistryObjectGroup<PetrifiedTileBlock, PetrifiedTileItem, PetrifiedTile> PETRIFIED_TILE =
             new BlockRegistryObjectGroup<>("petrified_tile", PetrifiedTileBlock::new, petrifiedTileCreator(), PetrifiedTile::new).register(BLOCKS, ITEMS, TILE_ENTITIES);
+
+    public static final BlockRegistryObjectGroup<StoneNestBlock, PetrifiedTileItem, ?> STONE_NEST =
+            new BlockRegistryObjectGroup<>("stone_nest", StoneNestBlock::new, petrifiedTileCreator()).register(BLOCKS, ITEMS);
 
 
     public static void register(IEventBus modBus) {
