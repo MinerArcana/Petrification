@@ -2,18 +2,16 @@ package com.minerarcana.petrification.entities;
 
 import com.minerarcana.petrification.goal.CreateNestGoal;
 import com.minerarcana.petrification.goal.LayEggGoal;
+import com.minerarcana.petrification.goal.PetrifyAreaGoal;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierManager;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -23,7 +21,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.network.NetworkHooks;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.animation.controller.EntityAnimationController;
@@ -33,7 +30,7 @@ import software.bernie.geckolib.manager.EntityAnimationManager;
 
 import javax.annotation.Nullable;
 
-import static com.minerarcana.petrification.content.PetrificationAnimations.IDLE1;
+import static com.minerarcana.petrification.content.PetrificationAnimations.*;
 import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NEST;
 
 public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity {
@@ -43,16 +40,15 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     public EntityAnimationManager animationControllers = new EntityAnimationManager();
 
     private static final DataParameter<Boolean> IS_ANGRY;
-    private static final DataParameter<Boolean> HAS_NEST;
     private static final DataParameter<BlockPos> NESTPOSITION;
+    private static final DataParameter<Byte> PLAYING_ANIMATION;
 
     private int timeUntilNextEgg;
+    private int timeUntilNextPetrification;
     private AnimationBuilder currentAnimation;
 
     public CockatriceEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(4.00);
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         registerAnimationControllers();
     }
 
@@ -66,6 +62,7 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new LayEggGoal(this));
         this.goalSelector.addGoal(2, new CreateNestGoal(this));
+        this.goalSelector.addGoal(6, new PetrifyAreaGoal(this));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
@@ -73,14 +70,14 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     protected void registerData() {
         super.registerData();
         this.dataManager.register(IS_ANGRY, false);
-        this.dataManager.register(HAS_NEST, false);
         this.dataManager.register(NESTPOSITION, BlockPos.ZERO);
+        this.dataManager.register(PLAYING_ANIMATION, (byte) 0);
     }
 
     static {
         IS_ANGRY = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BOOLEAN);
-        HAS_NEST = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BOOLEAN);
         NESTPOSITION = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BLOCK_POS);
+        PLAYING_ANIMATION = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BYTE);
     }
 
     @Override
@@ -88,19 +85,25 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         super.tick();
         if(hasNest()) {
             ++timeUntilNextEgg;
+            ++timeUntilNextPetrification;
         }
+        animationController();
     }
 
     public boolean hasNest() {
-        return dataManager.get(HAS_NEST);
-    }
-
-    public void hasNest(boolean hasNest) {
-        dataManager.set(HAS_NEST, hasNest);
+        return world.getBlockState(getNestPosition()).getBlock().equals(STONE_NEST.get());
     }
 
     public boolean isAngry() {
         return dataManager.get(IS_ANGRY);
+    }
+
+    public boolean isIdling() {
+        return dataManager.get(PLAYING_ANIMATION) == 0;
+    }
+
+    public boolean isPetrifying() {
+        return dataManager.get(PLAYING_ANIMATION) == 1;
     }
 
     public void setIsAngry(boolean anger) {
@@ -119,8 +122,16 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         return timeUntilNextEgg;
     }
 
+    public int getTimeUntilNextPetrification() {
+        return timeUntilNextPetrification;
+    }
+
     public void setTimeUntilNextEgg(int timeUntilNextEgg) {
         this.timeUntilNextEgg = timeUntilNextEgg;
+    }
+
+    public void setTimeUntilNextPetrification(int timeUntilNextPetrification) {
+        this.timeUntilNextPetrification = timeUntilNextPetrification;
     }
 
     private AnimationBuilder getAnimationBuilder() {
@@ -130,7 +141,23 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         return currentAnimation;
     }
 
-    public void setCurrentAnimation(AnimationBuilder currentAnimation) {
+    public void setAnimation(byte data){
+        dataManager.set(PLAYING_ANIMATION,data);
+    }
+
+    private void animationController(){
+        if(isIdling()){
+            setCurrentAnimation(IDLE1);
+        } else if(isPetrifying()){
+            setCurrentAnimation(PETRIFY);
+        }else if(dataManager.get(PLAYING_ANIMATION) == 2){
+            setCurrentAnimation(WALK);
+        }else if(dataManager.get(PLAYING_ANIMATION) == 3){
+            setCurrentAnimation(LAYEGG);
+        }
+    }
+
+    private void setCurrentAnimation(AnimationBuilder currentAnimation) {
         this.currentAnimation = currentAnimation;
     }
 
@@ -218,5 +245,19 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
                 }
             }
         }
+    }
+
+    @Override
+    public void read(CompoundNBT compound) {
+        setIsAngry(compound.getBoolean("anger"));
+        setNestPosition(BlockPos.fromLong(compound.getLong("nestPos")));
+        super.read(compound);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        compound.putBoolean("anger", isAngry());
+        compound.putLong("nestPos", getNestPosition().toLong());
+        super.writeAdditional(compound);
     }
 }

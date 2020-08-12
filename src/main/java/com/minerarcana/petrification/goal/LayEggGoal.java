@@ -73,16 +73,16 @@ public class LayEggGoal extends CockatriceGoal {
                 BlockPos pos = getCockatrice().getNestPosition();
                 if (pos != null) {
                     if (getCockatrice().getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) > 3) {
-                        getCockatrice().setCurrentAnimation(WALK);
+                        getCockatrice().setAnimation((byte) 2);
                         if (navigator.tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ() - 1, getCockatrice().getAIMoveSpeed())) {
                             if (getCockatrice().getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 3) {
-                                getCockatrice().setCurrentAnimation(LAYEGG);
+                                getCockatrice().setAnimation((byte) 3);
                                 world.setBlockState(pos, STONE_NEST.getBlock().getDefaultState().with(EGG, TRUE));
                                 getCockatrice().setTimeUntilNextEgg(0);
                             }
                         }
                     }else{
-                        getCockatrice().setCurrentAnimation(LAYEGG);
+                        getCockatrice().setAnimation((byte) 3);
                         world.setBlockState(pos, STONE_NEST.getBlock().getDefaultState().with(EGG, TRUE));
                         getCockatrice().setTimeUntilNextEgg(0);
                     }

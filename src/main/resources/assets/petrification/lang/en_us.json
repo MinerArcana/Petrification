@@ -1,4 +1,6 @@
 {
+  "effect.petrification.petrification": "Petrification",
+  "effect.petrification.revivify": "Revivify",
   "entity.petrification.cockatrice": "Cockatrice",
   "item.petrification.stone_egg": "Stone Egg",
   "item.petrification.stone_feather": "Stone Feather",

@@ -45,6 +45,10 @@ public class ForgeEvents {
             if(eI.getEffectInstance().getAmplifier() >=9){
                 entity.onDeath(new DamageSource("petrification"));
                 setTombStatue(entity);
+            }else if(eI.getAmplifier() > 0){
+                int amplifier = eI.getAmplifier();
+                entity.removePotionEffect(eI.getPotion());
+                entity.addPotionEffect(new EffectInstance(PETRIFICATION.get(),300,amplifier-1));
             }
         }
 

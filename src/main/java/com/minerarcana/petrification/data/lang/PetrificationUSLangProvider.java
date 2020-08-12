@@ -26,5 +26,7 @@ public class PetrificationUSLangProvider extends LanguageProvider {
 
         this.addEntityType(COCKATRICE,"Cockatrice");
         this.add("itemGroup.petrification","Petrification");
+        this.add("effect.petrification.petrification","Petrification");
+        this.add("effect.petrification.revivify","Revivify");
     }
 }

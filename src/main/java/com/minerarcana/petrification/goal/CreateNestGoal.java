@@ -16,7 +16,6 @@ public class CreateNestGoal extends CockatriceGoal {
 
     @Override
     public void startExecuting() {
-        getCockatrice().hasNest(true);
         getCockatrice().createRandomNest();
     }
 
