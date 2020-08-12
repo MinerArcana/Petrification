@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "egg=true": {
+      "model": "petrification:block/stone_nest_full"
+    },
+    "egg=false": {
+      "model": "petrification:block/stone_nest_empty"
+    }
+  }
+}

@@ -6,6 +6,8 @@ import com.minerarcana.petrification.renderer.CockatriceRenderer;
 import com.minerarcana.petrification.util.PetrificationGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
 import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
+import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NEST;
 import static com.minerarcana.petrification.content.PetrificationEntities.COCKATRICE;
 
 @Mod(MOD_ID)
@@ -55,7 +58,14 @@ public class Petrification
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
+        //TileEntity Renderer
         ClientRegistry.bindTileEntityRenderer(ENTITY_STATUE.getTileEntityType(), StatueRenderer::new);
+
+        //Block Render
+        RenderType cutout = RenderType.getCutout();
+        RenderTypeLookup.setRenderLayer(STONE_NEST.getBlock(),cutout);
+
+        //Entity Renderer
         RenderingRegistry.registerEntityRenderingHandler(COCKATRICE.get(), CockatriceRenderer::new);
     }
 }

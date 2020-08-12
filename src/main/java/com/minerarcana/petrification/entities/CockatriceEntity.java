@@ -44,9 +44,9 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
 
     private static final DataParameter<Boolean> IS_ANGRY;
     private static final DataParameter<Boolean> HAS_NEST;
+    private static final DataParameter<BlockPos> NESTPOSITION;
 
     private int timeUntilNextEgg;
-    private BlockPos nestPosition;
     private AnimationBuilder currentAnimation;
 
     public CockatriceEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
@@ -74,15 +74,18 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         super.registerData();
         this.dataManager.register(IS_ANGRY, false);
         this.dataManager.register(HAS_NEST, false);
+        this.dataManager.register(NESTPOSITION, BlockPos.ZERO);
     }
 
     static {
         IS_ANGRY = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BOOLEAN);
         HAS_NEST = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BOOLEAN);
+        NESTPOSITION = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BLOCK_POS);
     }
 
     @Override
     public void tick() {
+        super.tick();
         if(hasNest()) {
             ++timeUntilNextEgg;
         }
@@ -105,7 +108,11 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     }
 
     public BlockPos getNestPosition() {
-        return nestPosition;
+        return dataManager.get(NESTPOSITION);
+    }
+
+    public void setNestPosition(BlockPos pos){
+        dataManager.set(NESTPOSITION, pos);
     }
 
     public int getTimeUntilNextEgg() {
@@ -197,14 +204,17 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         if(world.getBlockState(pos).isAir() && !world.getBlockState(pos.down()).isAir()){
             world.setBlockState(pos,STONE_NEST.get().getDefaultState());
             world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
+            setNestPosition(pos);
         }else{
             if(world.getBlockState(pos.down()).isAir() && !world.getBlockState(pos.down(2)).isAir()){
-                world.setBlockState(pos,STONE_NEST.get().getDefaultState());
-                world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
+                world.setBlockState(pos.down(),STONE_NEST.get().getDefaultState());
+                world.setBlockState(pos.down(2), Blocks.STONE.getDefaultState());
+                setNestPosition(pos.down());
             }else{
                 if(world.getBlockState(pos.up()).isAir() && !world.getBlockState(pos).isAir()){
-                    world.setBlockState(pos,STONE_NEST.get().getDefaultState());
-                    world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
+                    world.setBlockState(pos.up(),STONE_NEST.get().getDefaultState());
+                    world.setBlockState(pos, Blocks.STONE.getDefaultState());
+                    setNestPosition(pos.up());
                 }
             }
         }

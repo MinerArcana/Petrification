@@ -1,6 +1,7 @@
 package com.minerarcana.petrification.goal;
 
 import com.minerarcana.petrification.entities.CockatriceEntity;
+import net.minecraft.util.math.BlockPos;
 
 public class CreateNestGoal extends CockatriceGoal {
 
@@ -10,7 +11,7 @@ public class CreateNestGoal extends CockatriceGoal {
 
     @Override
     public boolean shouldExecute() {
-        return !getCockatrice().hasNest() && getCockatrice().getNestPosition() == null;
+        return !getCockatrice().hasNest() && getCockatrice().getNestPosition() == BlockPos.ZERO;
     }
 
     @Override
@@ -21,6 +22,6 @@ public class CreateNestGoal extends CockatriceGoal {
 
     @Override
     public boolean shouldContinueExecuting() {
-        return !getCockatrice().hasNest() && getCockatrice().getNestPosition() == null;
+        return !getCockatrice().hasNest() || getCockatrice().getNestPosition() == BlockPos.ZERO;
     }
 }
