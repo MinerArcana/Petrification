@@ -12,20 +12,21 @@ import net.minecraft.world.World;
 import java.util.EnumSet;
 
 import static com.minerarcana.petrification.blocks.StoneNestBlock.EGG;
+import static com.minerarcana.petrification.content.PetrificationAnimations.LAYEGG;
+import static com.minerarcana.petrification.content.PetrificationAnimations.WALK;
 import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NEST;
 import static com.minerarcana.petrification.content.PetrificationItems.STONE_FEATHER;
 import static java.lang.Boolean.TRUE;
 
-public class LayEggGoal extends Goal {
+public class LayEggGoal extends CockatriceGoal {
 
-    private final CockatriceEntity entity;
     private final PathNavigator navigator;
     private int timeToRecalcPath;
     private final int random;
     private final World world;
 
     public LayEggGoal(CockatriceEntity entity) {
-        this.entity = entity;
+        super(entity);
         this.navigator = entity.getNavigator();
         this.random = entity.world.rand.nextInt(10);
         this.world = entity.world;
@@ -34,18 +35,18 @@ public class LayEggGoal extends Goal {
 
     @Override
     public boolean shouldExecute() {
-        if (entity.getAttackTarget() != null) {
+        if (getCockatrice().getAttackTarget() != null || getCockatrice().isAngry()) {
             return false;
-        } else return entity.getTimeUntilNextEgg() >= 4800;
+        } else return getCockatrice().getTimeUntilNextEgg() >= 4800;
     }
 
     @Override
     public void startExecuting() {
         this.timeToRecalcPath = 0;
-        this.entity.setPathPriority(PathNodeType.WATER, 0.0F);
-        if (random != 0 || world.getBlockState(entity.getNestPosition()).get(EGG)) {
-            entity.setTimeUntilNextEgg(0);
-            BlockPos pos = entity.getPosition();
+        this.getCockatrice().setPathPriority(PathNodeType.WATER, 0.0F);
+        if (random != 0 || world.getBlockState(getCockatrice().getNestPosition()).get(EGG)) {
+            getCockatrice().setTimeUntilNextEgg(0);
+            BlockPos pos = getCockatrice().getPosition();
             ItemStack stack = new ItemStack(STONE_FEATHER.get());
             if (world.rand.nextInt(100) == 0) {
                 stack.setCount(3);
@@ -61,7 +62,7 @@ public class LayEggGoal extends Goal {
         if (this.navigator.noPath()) {
             return false;
         }
-        return entity.getTimeUntilNextEgg() >= 4800;
+        return getCockatrice().getTimeUntilNextEgg() >= 4800;
     }
 
     @Override
@@ -69,13 +70,21 @@ public class LayEggGoal extends Goal {
         if (random == 0) {
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
-                BlockPos pos = entity.getNestPosition();
+                BlockPos pos = getCockatrice().getNestPosition();
                 if (pos != null) {
-                    if (entity.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) > 3) {
-                        if (navigator.tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ() - 1, entity.getAIMoveSpeed())) {
-                            world.setBlockState(pos, STONE_NEST.getBlock().getDefaultState().with(EGG, TRUE));
-                            entity.setTimeUntilNextEgg(0);
+                    if (getCockatrice().getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) > 3) {
+                        getCockatrice().setCurrentAnimation(WALK);
+                        if (navigator.tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ() - 1, getCockatrice().getAIMoveSpeed())) {
+                            if (getCockatrice().getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 3) {
+                                getCockatrice().setCurrentAnimation(LAYEGG);
+                                world.setBlockState(pos, STONE_NEST.getBlock().getDefaultState().with(EGG, TRUE));
+                                getCockatrice().setTimeUntilNextEgg(0);
+                            }
                         }
+                    }else{
+                        getCockatrice().setCurrentAnimation(LAYEGG);
+                        world.setBlockState(pos, STONE_NEST.getBlock().getDefaultState().with(EGG, TRUE));
+                        getCockatrice().setTimeUntilNextEgg(0);
                     }
                 }
             }

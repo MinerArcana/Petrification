@@ -2,15 +2,19 @@ package com.minerarcana.petrification;
 
 import com.minerarcana.petrification.client.StatueRenderer;
 import com.minerarcana.petrification.content.*;
+import com.minerarcana.petrification.renderer.CockatriceRenderer;
 import com.minerarcana.petrification.util.PetrificationGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -25,14 +29,15 @@ import java.util.stream.Collectors;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
 import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
+import static com.minerarcana.petrification.content.PetrificationEntities.COCKATRICE;
 
 @Mod(MOD_ID)
 public class Petrification
 {
     public static final String MOD_ID = "petrification";
-
     private static final Logger LOGGER = LogManager.getLogger();
     public static final PetrificationGroup PG =new PetrificationGroup();
+
     public Petrification() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         PetrificationBlocks.register(bus);
@@ -40,54 +45,17 @@ public class Petrification
         PetrificationEntities.register(bus);
         PetrificationEffects.register(bus);
         PetrificationPotions.register(bus);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
-
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    private void setup(final FMLCommonSetupEvent event) {
+        GlobalEntityTypeAttributes.put(COCKATRICE.get(), ChickenEntity.func_234187_eI_().create());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntityRenderer(ENTITY_STATUE.getTileEntityType(), StatueRenderer::new);
-
-   }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.getMessageSupplier().get()).
-                collect(Collectors.toList()));
-    }
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-            LOGGER.info("HELLO from Register Block");
-        }
+        RenderingRegistry.registerEntityRenderingHandler(COCKATRICE.get(), CockatriceRenderer::new);
     }
 }

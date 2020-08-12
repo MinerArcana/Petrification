@@ -52,40 +52,38 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
+            environment 'target', 'fmluserdevdata'
+            properties 'fml.earlyprogresswindow': 'false'
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
-
-            mods {
-                examplemod {
-                    source sourceSets.main
-                }
-            }
+            args '--all', '--output', file('src/datagen/resources/'),
+                    '--mod', 'petrification', '--reports',
+                    '--existing', sourceSets.main.resources.srcDirs[0]
         }
     }
 }
 
+repositories {
+    maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
+}
+
 dependencies {
 
-   minecraft 'net.minecraftforge:forge:1.16.1-32.0.107'
-
+    minecraft 'net.minecraftforge:forge:1.16.1-32.0.108'
+    compile fg.deobf('software.bernie.geckolib:forge-1.16.1-geckolib:2.0.0')
 
 }
 
 jar {
     manifest {
         attributes([
-            "Specification-Title": "petrification",
-            "Specification-Vendor": "minerarcana",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"minerarcana",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "petrification",
+                "Specification-Vendor"    : "minerarcana",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "minerarcana",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
