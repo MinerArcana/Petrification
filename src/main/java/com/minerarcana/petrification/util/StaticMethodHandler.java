@@ -1,11 +1,14 @@
 package com.minerarcana.petrification.util;
 
 import com.minerarcana.petrification.entities.CockatriceEntity;
+import com.minerarcana.petrification.goal.CockatriceGoal;
 import com.minerarcana.petrification.tileentities.PetrifiedTile;
 import com.minerarcana.petrification.tileentities.StatueTile;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -44,15 +47,15 @@ public class StaticMethodHandler {
 
     public static void entityAreaPetrification(World world, BlockPos pos) {
         List<Entity> list = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos.getX() - 3, pos.getY() - 3, pos.getZ() - 3, pos.getX() + 3, pos.getY() + 3, pos.getZ() + 3));
-        for(Entity entity: list){
-            if(!(entity instanceof CockatriceEntity) && entity instanceof LivingEntity){
+        for (Entity entity : list) {
+            if (!(entity instanceof CockatriceEntity) && entity instanceof LivingEntity) {
                 LivingEntity lifer = (LivingEntity) entity;
-                if(lifer.isPotionActive(PETRIFICATION.get())) {
+                if (lifer.isPotionActive(PETRIFICATION.get())) {
                     int amplifier = lifer.getActivePotionEffect(PETRIFICATION.get()).getAmplifier();
                     lifer.removePotionEffect(PETRIFICATION.get());
-                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(),3000,amplifier+1));
-                } else{
-                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(),3000,0));
+                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 3000, amplifier + 1));
+                } else {
+                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 3000, 0));
                 }
             }
         }
@@ -88,7 +91,7 @@ public class StaticMethodHandler {
         }
     }
 
-    public static void petrifyPos(World world,BlockPos pos){
+    public static void petrifyPos(World world, BlockPos pos) {
         if (!world.getBlockState(pos).isAir()) {
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
@@ -98,7 +101,7 @@ public class StaticMethodHandler {
             } else if (state.isIn(Tags.Blocks.NETHERRACK) || block instanceof LeavesBlock || block instanceof TallGrassBlock || block.equals(Blocks.COARSE_DIRT)) {
                 world.setBlockState(pos, Blocks.GRAVEL.getDefaultState());
             } else if (block.equals(Blocks.COBBLESTONE) || block instanceof RotatedPillarBlock && block.getRegistryName().toString().contains("log")) {
-                world.setBlockState(pos, Blocks.STONE_BRICK_WALL.getDefaultState());
+                world.setBlockState(pos, Blocks.STONE.getDefaultState());
             } else if (block instanceof FenceBlock || block instanceof FenceGateBlock) {
                 world.setBlockState(pos, Blocks.STONE_BRICK_WALL.getDefaultState());
             } else if (tile != null) {
@@ -111,8 +114,8 @@ public class StaticMethodHandler {
         }
     }
 
-    public static List<BlockPos> getBlockPosToCheck(BlockPos pos){
-        int size = 2;
+    public static List<BlockPos> getBlockPosToCheck(BlockPos pos) {
+        int size = 3;
         List<BlockPos> posList = new ArrayList<>();
         for (int x = -size; x < size; ++x) {
             for (int y = -size; y < size; ++y) {

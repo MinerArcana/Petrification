@@ -19,7 +19,7 @@ public class PetrifyAreaGoal extends CockatriceGoal {
 
     @Override
     public boolean shouldExecute() {
-        return getCockatrice().getTimeUntilNextPetrification() >= 400;
+        return getCockatrice().getTimeUntilNextPetrification() >= 400 && getCockatrice().isIdling();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PetrifyAreaGoal extends CockatriceGoal {
 
     @Override
     public boolean shouldContinueExecuting() {
-        return animationTimer <= 40;
+        return animationTimer <= 60;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PetrifyAreaGoal extends CockatriceGoal {
     @Override
     public void tick() {
         ++animationTimer;
-        if (animationTimer >= 39) {
+        if (animationTimer >= 58) {
             if (!areaToPetrify.isEmpty()) {
                 for (BlockPos pos : areaToPetrify) {
                     petrifyPos(getCockatrice().world, pos);
@@ -54,7 +54,7 @@ public class PetrifyAreaGoal extends CockatriceGoal {
             getCockatrice().setIsAngry(false);
         } else if (animationTimer == 20) {
             entityAreaPetrification(getCockatrice().world, getCockatrice().getPosition());
-        } else {
+        } else if(animationTimer > 10){
             if (!areaToPetrify.isEmpty()) {
                 int x = 4;
                 while (x > 0 && !areaToPetrify.isEmpty()) {

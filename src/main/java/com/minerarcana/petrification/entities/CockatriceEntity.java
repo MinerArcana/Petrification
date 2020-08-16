@@ -1,8 +1,6 @@
 package com.minerarcana.petrification.entities;
 
-import com.minerarcana.petrification.goal.CreateNestGoal;
-import com.minerarcana.petrification.goal.LayEggGoal;
-import com.minerarcana.petrification.goal.PetrifyAreaGoal;
+import com.minerarcana.petrification.goal.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.CreatureEntity;
@@ -11,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
@@ -63,7 +62,9 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         this.goalSelector.addGoal(1, new LayEggGoal(this));
         this.goalSelector.addGoal(2, new CreateNestGoal(this));
         this.goalSelector.addGoal(6, new PetrifyAreaGoal(this));
-        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(7,new ReturnToNestGoal(this));
+        this.goalSelector.addGoal(8, new PRandomWalkingGoal(this, 1.0D,300));
+        this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -78,6 +79,19 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         IS_ANGRY = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BOOLEAN);
         NESTPOSITION = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BLOCK_POS);
         PLAYING_ANIMATION = EntityDataManager.createKey(CockatriceEntity.class, DataSerializers.BYTE);
+    }
+
+    @Override
+    public int getAir() {
+        return super.getAir();
+    }
+
+    @Override
+    public boolean isEntityInsideOpaqueBlock() {
+        while(super.isEntityInsideOpaqueBlock()){
+            setPosition(getPosX(),getPosY() + 1,getPosZ());
+        }
+        return false;
     }
 
     @Override
@@ -101,6 +115,8 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     public boolean isIdling() {
         return dataManager.get(PLAYING_ANIMATION) == 0;
     }
+
+    public boolean isWalking(){return dataManager.get(PLAYING_ANIMATION) == 2;}
 
     public boolean isPetrifying() {
         return dataManager.get(PLAYING_ANIMATION) == 1;
@@ -228,17 +244,17 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         }else{
             pos = getPosition().add(-x,0,z);
         }
-        if(world.getBlockState(pos).isAir() && !world.getBlockState(pos.down()).isAir()){
+        if(world.getBlockState(pos).getMaterial().isReplaceable() && !world.getBlockState(pos.down()).getMaterial().isReplaceable()){
             world.setBlockState(pos,STONE_NEST.get().getDefaultState());
             world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
             setNestPosition(pos);
         }else{
-            if(world.getBlockState(pos.down()).isAir() && !world.getBlockState(pos.down(2)).isAir()){
+            if(world.getBlockState(pos.down()).getMaterial().isReplaceable() && !world.getBlockState(pos.down(2)).getMaterial().isReplaceable()){
                 world.setBlockState(pos.down(),STONE_NEST.get().getDefaultState());
                 world.setBlockState(pos.down(2), Blocks.STONE.getDefaultState());
                 setNestPosition(pos.down());
             }else{
-                if(world.getBlockState(pos.up()).isAir() && !world.getBlockState(pos).isAir()){
+                if(world.getBlockState(pos.up()).getMaterial().isReplaceable() && !world.getBlockState(pos).getMaterial().isReplaceable()){
                     world.setBlockState(pos.up(),STONE_NEST.get().getDefaultState());
                     world.setBlockState(pos, Blocks.STONE.getDefaultState());
                     setNestPosition(pos.up());
