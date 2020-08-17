@@ -22,16 +22,16 @@ public class StatueTile extends TileEntity {
     }
 
     public LivingEntity getEntity() {
-        if(nbt == null){
-            updateStatueInternal();
-        }
         if(entity == null && nbt != null){
-            setEntity((LivingEntity) EntityType.loadEntityUnchecked(nbt.getCompound("entity"),world).get());
+            if(world != null) {
+                setEntity((LivingEntity) EntityType.loadEntityUnchecked(nbt, world).get());
+            }
         }
         return entity;
     }
 
     public void setEntity(LivingEntity entity) {
+        updateStatueInternal();
         this.entity = entity;
     }
 
@@ -57,13 +57,15 @@ public class StatueTile extends TileEntity {
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT nbt = new CompoundNBT();
-        nbt.put("entity",entity.serializeNBT());
+        nbt.put("entity",getEntity().serializeNBT());
+        nbt.putString("id",getEntity().getType().getRegistryName().toString());
         return nbt;
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         nbt = tag.getCompound("entity");
+        nbt.putString("id",tag.getString("id"));
         updateStatueInternal();
     }
 
@@ -75,7 +77,9 @@ public class StatueTile extends TileEntity {
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        compound.put("entity", getEntity().serializeNBT());
+        CompoundNBT nbt = getEntity().serializeNBT();
+        nbt.putString("id",getEntity().getType().getRegistryName().toString());
+        compound.put("entity", nbt);
         return super.write(compound);
     }
 }
