@@ -1,6 +1,7 @@
 package com.minerarcana.petrification.tileentities;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -9,6 +10,8 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 
 import javax.annotation.Nullable;
+
+import java.util.Optional;
 
 import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
 
@@ -24,7 +27,8 @@ public class StatueTile extends TileEntity {
     public LivingEntity getEntity() {
         if(entity == null && nbt != null){
             if(world != null) {
-                setEntity((LivingEntity) EntityType.loadEntityUnchecked(nbt, world).get());
+                Optional<Entity> optional = EntityType.loadEntityUnchecked(nbt, world);
+                optional.ifPresent(entity -> setEntity((LivingEntity)entity));
             }
         }
         return entity;
@@ -72,14 +76,14 @@ public class StatueTile extends TileEntity {
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
         this.nbt = nbt.getCompound("entity");
+        this.nbt.putString("id", nbt.getString("id"));
         super.read(state, nbt);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        CompoundNBT nbt = getEntity().serializeNBT();
-        nbt.putString("id",getEntity().getType().getRegistryName().toString());
-        compound.put("entity", nbt);
+        compound.put("entity", getEntity().serializeNBT());
+        compound.putString("id",getEntity().getType().getRegistryName().toString());
         return super.write(compound);
     }
 }
