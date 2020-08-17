@@ -57,7 +57,7 @@ public class StoneNestBlock extends Block {
 
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
-        if(state.get(EGG) && !world.isDaytime() && world.getMoonPhase() == 5){
+        if(state.get(EGG) && !world.isDaytime() && world.func_230315_m_().func_236035_c_(world.getGameTime()) == 5){
             spawnCockatrice(world, pos);
             world.setBlockState(pos, this.getDefaultState().with(EGG, false), 4);
         }
