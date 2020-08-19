@@ -53,9 +53,9 @@ public class StaticMethodHandler {
                 if (lifer.isPotionActive(PETRIFICATION.get())) {
                     int amplifier = lifer.getActivePotionEffect(PETRIFICATION.get()).getAmplifier();
                     lifer.removePotionEffect(PETRIFICATION.get());
-                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 3000, amplifier + 1));
+                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 600, amplifier + 1));
                 } else {
-                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 3000, 0));
+                    lifer.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 600, 0));
                 }
             }
         }

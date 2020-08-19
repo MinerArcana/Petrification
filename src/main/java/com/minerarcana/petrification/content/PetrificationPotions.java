@@ -13,16 +13,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
-
-import static com.minerarcana.petrification.util.StaticPotionHandler.LONG_PETRIFICATION_INSTANCE;
-import static com.minerarcana.petrification.util.StaticPotionHandler.STRONG_PETRIFICATION_INSTANCE;
+import static com.minerarcana.petrification.content.PetrificationItems.STONE_EGG;
+import static com.minerarcana.petrification.util.StaticPotionHandler.*;
 
 public class PetrificationPotions {
 
     private static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTION_TYPES, MOD_ID);
 
-    public static final PotionRegistryGroup PETRIFICATION_BREW = new PotionRegistryGroup("petrification_potion", () -> new Potion(LONG_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{})), () -> Ingredient.fromItems(Items.GRAVEL))
-            .setBase(() -> Potions.THICK)
+    public static final PotionRegistryGroup PETRIFICATION_BREW = new PotionRegistryGroup("petrification_potion", () -> new Potion(BASE_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{})), () -> Ingredient.fromItems(STONE_EGG.get()))
+            .setBase(() -> Potions.AWKWARD)
             .addLongBrew(() -> new Potion(LONG_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{})))
             .addStrongBrew(() -> new Potion(STRONG_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{}))).register(POTIONS);
 

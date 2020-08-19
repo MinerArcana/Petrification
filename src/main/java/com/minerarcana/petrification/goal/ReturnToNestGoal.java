@@ -21,6 +21,9 @@ public class ReturnToNestGoal extends CockatriceGoal {
         if(!getCockatrice().hasNest() || getCockatrice().getNestPosition().equals(BlockPos.ZERO)){
             return false;
         }
+        if(getCockatrice().getNearbyCatTarget() != null || getCockatrice().getAttackTarget() != null){
+           return false;
+        }
         nest = getCockatrice().getNestPosition();
         return getCockatrice().getDistanceSq(nest.getX(),nest.getY(),nest.getZ()) > 60 && getCockatrice().world.rand.nextInt(30) == 0 && getCockatrice().isIdling();
     }

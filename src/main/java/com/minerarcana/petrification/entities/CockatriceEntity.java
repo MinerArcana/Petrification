@@ -6,6 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -15,6 +16,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -31,6 +33,7 @@ import javax.annotation.Nullable;
 
 import static com.minerarcana.petrification.content.PetrificationAnimations.*;
 import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NEST;
+import static com.minerarcana.petrification.content.PetrificationEffects.PETRIFICATION;
 
 public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity {
 
@@ -45,6 +48,8 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     private int timeUntilNextEgg;
     private int timeUntilNextPetrification;
     private AnimationBuilder currentAnimation;
+
+    private LivingEntity nearbyCatTarget;
 
     public CockatriceEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
@@ -62,9 +67,10 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         this.goalSelector.addGoal(1, new LayEggGoal(this));
         this.goalSelector.addGoal(2, new CreateNestGoal(this));
         this.goalSelector.addGoal(6, new PetrifyAreaGoal(this));
-        this.goalSelector.addGoal(7,new ReturnToNestGoal(this));
-        this.goalSelector.addGoal(8, new PRandomWalkingGoal(this, 1.0D,300));
-        this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(7,new CockatriceAttackGoal(this));
+        this.goalSelector.addGoal(8,new ReturnToNestGoal(this));
+        this.goalSelector.addGoal(9, new PRandomWalkingGoal(this, 1.0D,300));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -170,6 +176,8 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
             setCurrentAnimation(WALK);
         }else if(dataManager.get(PLAYING_ANIMATION) == 3){
             setCurrentAnimation(LAYEGG);
+        }else if(dataManager.get(PLAYING_ANIMATION) == 4){
+            setCurrentAnimation(ATTACK);
         }
     }
 
@@ -180,6 +188,24 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
     private void registerAnimationControllers() {
         if (world.isRemote) {
             this.getAnimationManager().addAnimationController(moveController);
+        }
+    }
+
+    public LivingEntity getNearbyCatTarget() {
+        return nearbyCatTarget;
+    }
+
+    public void setNearbyCatTarget(LivingEntity nearbyCatTarget) {
+        this.nearbyCatTarget = nearbyCatTarget;
+    }
+
+    public void petrifyEnemy(LivingEntity enemy){
+        if (enemy.isPotionActive(PETRIFICATION.get())) {
+            int amplifier = enemy.getActivePotionEffect(PETRIFICATION.get()).getAmplifier();
+            enemy.removePotionEffect(PETRIFICATION.get());
+            enemy.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 600, amplifier + 1));
+        } else {
+            enemy.addPotionEffect(new EffectInstance(PETRIFICATION.get(), 600, 0));
         }
     }
 
@@ -226,38 +252,54 @@ public class CockatriceEntity extends CreatureEntity implements IAnimatedEntity 
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public void createRandomNest() {
-        int x = rand.nextInt(4);
-        int y = rand.nextInt(4);
-        int z = rand.nextInt(4);
-        BlockPos pos;
-        if (x == 0 && z == 0) {
-            z = 1;
-            x = -1;
+    private void checkAreaForNest(){
+        for(int x = -10; x <= 10; ++x){
+            for(int y = -10; y <= 10; ++y){
+                for(int z = -10; z <= 10; ++z){
+                    BlockPos pos = new BlockPos(getPosX() + x,getPosY() + y,getPosZ() + z);
+                    if(world.getBlockState(pos).getBlock().equals(STONE_NEST.get())){
+                        setNestPosition(pos);
+                    }
+                }
+            }
         }
-        if (y == 0) {
-            pos = getPosition().add(x,0,z);
-        } else if (y == 1) {
-            pos = getPosition().add(x,0,-z);
-        } else if (y == 2){
-            pos = getPosition().add(-x,0,-z);
-        }else{
-            pos = getPosition().add(-x,0,z);
-        }
-        if(world.getBlockState(pos).getMaterial().isReplaceable() && !world.getBlockState(pos.down()).getMaterial().isReplaceable()){
-            world.setBlockState(pos,STONE_NEST.get().getDefaultState());
-            world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
-            setNestPosition(pos);
-        }else{
-            if(world.getBlockState(pos.down()).getMaterial().isReplaceable() && !world.getBlockState(pos.down(2)).getMaterial().isReplaceable()){
-                world.setBlockState(pos.down(),STONE_NEST.get().getDefaultState());
-                world.setBlockState(pos.down(2), Blocks.STONE.getDefaultState());
-                setNestPosition(pos.down());
-            }else{
-                if(world.getBlockState(pos.up()).getMaterial().isReplaceable() && !world.getBlockState(pos).getMaterial().isReplaceable()){
-                    world.setBlockState(pos.up(),STONE_NEST.get().getDefaultState());
-                    world.setBlockState(pos, Blocks.STONE.getDefaultState());
-                    setNestPosition(pos.up());
+    }
+
+    public void createOrFindRandomNest() {
+        checkAreaForNest();
+        if(getNestPosition() == null) {
+            int x = rand.nextInt(4);
+            int y = rand.nextInt(4);
+            int z = rand.nextInt(4);
+            BlockPos pos;
+            if (x == 0 && z == 0) {
+                z = 1;
+                x = -1;
+            }
+            if (y == 0) {
+                pos = getPosition().add(x, 0, z);
+            } else if (y == 1) {
+                pos = getPosition().add(x, 0, -z);
+            } else if (y == 2) {
+                pos = getPosition().add(-x, 0, -z);
+            } else {
+                pos = getPosition().add(-x, 0, z);
+            }
+            if (world.getBlockState(pos).getMaterial().isReplaceable() && !world.getBlockState(pos.down()).getMaterial().isReplaceable()) {
+                world.setBlockState(pos, STONE_NEST.get().getDefaultState());
+                world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
+                setNestPosition(pos);
+            } else {
+                if (world.getBlockState(pos.down()).getMaterial().isReplaceable() && !world.getBlockState(pos.down(2)).getMaterial().isReplaceable()) {
+                    world.setBlockState(pos.down(), STONE_NEST.get().getDefaultState());
+                    world.setBlockState(pos.down(2), Blocks.STONE.getDefaultState());
+                    setNestPosition(pos.down());
+                } else {
+                    if (world.getBlockState(pos.up()).getMaterial().isReplaceable() && !world.getBlockState(pos).getMaterial().isReplaceable()) {
+                        world.setBlockState(pos.up(), STONE_NEST.get().getDefaultState());
+                        world.setBlockState(pos, Blocks.STONE.getDefaultState());
+                        setNestPosition(pos.up());
+                    }
                 }
             }
         }
