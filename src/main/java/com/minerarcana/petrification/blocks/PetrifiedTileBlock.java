@@ -46,8 +46,10 @@ public class PetrifiedTileBlock extends Block {
                 TileEntity stored = pT.getTile();
                 ItemStack stack = new ItemStack(PETRIFIED_TILE.getItem());
                 CompoundNBT nbt = new CompoundNBT();
-                nbt.putString("tileEntity",stored.getType().getRegistryName().toString());
-                nbt.put("tileNBT",stored.serializeNBT());
+                if(stored != null) {
+                    nbt.putString("tileEntity", stored.getType().getRegistryName().toString());
+                    nbt.put("tileNBT", stored.serializeNBT());
+                }
                 stack.setTag(nbt);
                 worldIn.addEntity(new ItemEntity(worldIn,pos.getX(),pos.getY(),pos.getZ(),stack));
             }

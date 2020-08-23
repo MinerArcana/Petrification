@@ -61,10 +61,10 @@ public class StaticMethodHandler {
         }
     }
 
-    public static void areaPetrification(World world, BlockPos pos) {
-        for (int x = -2; x <= 2; ++x) {
-            for (int z = -2; z <= 2; ++z) {
-                for (int y = -2; y <= 2; ++y) {
+    public static void areaPetrification(World world, BlockPos pos,int area, int height) {
+        for (int x = -area; x <= area; ++x) {
+            for (int z = -area; z <= area; ++z) {
+                for (int y = -height; y <= height; ++y) {
                     BlockPos newPos = pos.add(x, y, z);
                     if (!world.getBlockState(newPos).isAir()) {
                         BlockState state = world.getBlockState(newPos);
@@ -75,7 +75,7 @@ public class StaticMethodHandler {
                         } else if (state.isIn(Tags.Blocks.NETHERRACK) || block instanceof LeavesBlock || block instanceof TallGrassBlock || block.equals(Blocks.COARSE_DIRT)) {
                             world.setBlockState(newPos, Blocks.GRAVEL.getDefaultState());
                         } else if (block.equals(Blocks.COBBLESTONE) || block instanceof RotatedPillarBlock && block.getRegistryName().toString().contains("log")) {
-                            world.setBlockState(newPos, Blocks.STONE_BRICK_WALL.getDefaultState());
+                            world.setBlockState(newPos, Blocks.STONE.getDefaultState());
                         } else if (block instanceof FenceBlock || block instanceof FenceGateBlock) {
                             world.setBlockState(newPos, Blocks.STONE_BRICK_WALL.getDefaultState());
                         } else if (tile != null) {

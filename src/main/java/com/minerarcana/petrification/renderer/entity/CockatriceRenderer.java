@@ -1,4 +1,4 @@
-package com.minerarcana.petrification.renderer;
+package com.minerarcana.petrification.renderer.entity;
 
 import com.minerarcana.petrification.entities.CockatriceEntity;
 import com.minerarcana.petrification.models.CockatriceModel;

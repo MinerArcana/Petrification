@@ -1,4 +1,4 @@
-package com.minerarcana.petrification.client;
+package com.minerarcana.petrification.renderer.tile;
 
 import com.minerarcana.petrification.tileentities.StatueTile;
 import com.mojang.blaze3d.matrix.MatrixStack;

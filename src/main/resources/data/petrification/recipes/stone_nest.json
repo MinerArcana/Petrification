@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    " E ",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gravel"
+    },
+    "E": {
+      "item": "minecraft:egg"
+    }
+  },
+  "result": {
+    "item": "petrification:stone_nest",
+    "nbt": "{\"egg\":\"true\"}",
+    "count": 1
+  }
+}

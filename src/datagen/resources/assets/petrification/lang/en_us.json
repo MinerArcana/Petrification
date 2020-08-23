@@ -2,8 +2,22 @@
   "effect.petrification.petrification": "Petrification",
   "effect.petrification.revivify": "Revivify",
   "entity.petrification.cockatrice": "Cockatrice",
+  "item.petrification.petrified_splash_potion_0": "Petrified Splash Potion",
+  "item.petrification.petrified_splash_potion_1": "Petrified Splash Potion II",
+  "item.petrification.petrified_splash_potion_2": "Petrified Splash Potion III",
+  "item.petrification.petrified_splash_potion_3": "Petrified Splash Potion IV",
+  "item.petrification.petrified_splash_potion_4": "Petrified Splash Potion V",
+  "item.petrification.petrified_splash_potion_5": "Petrified Splash Potion VI",
+  "item.petrification.petrified_splash_potion_6": "Petrified Splash Potion VII",
+  "item.petrification.petrified_splash_potion_7": "Petrified Splash Potion VIII",
+  "item.petrification.petrified_splash_potion_8": "Petrified Splash Potion IX",
+  "item.petrification.petrified_splash_potion_9": "Petrified Splash Potion X",
   "item.petrification.stone_egg": "Stone Egg",
   "item.petrification.stone_feather": "Stone Feather",
   "item.petrification.stonetomb_totem": "Stonetomb Totem",
-  "itemGroup.petrification": "Petrification"
+  "itemGroup.petrification": "Petrification",
+  "potion.potency.6": "VII",
+  "potion.potency.7": "VIII",
+  "potion.potency.8": "IX",
+  "potion.potency.9": "X"
 }

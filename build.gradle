@@ -69,7 +69,7 @@ repositories {
 
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.16.2-33.0.5'
+    minecraft 'net.minecraftforge:forge:1.16.2-33.0.20'
     compile fg.deobf('software.bernie.geckolib:forge-1.16.2-geckolib:2.1.0')
 
 }
