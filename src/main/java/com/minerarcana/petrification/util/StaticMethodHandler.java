@@ -79,10 +79,12 @@ public class StaticMethodHandler {
                         } else if (block instanceof FenceBlock || block instanceof FenceGateBlock) {
                             world.setBlockState(newPos, Blocks.STONE_BRICK_WALL.getDefaultState());
                         } else if (tile != null) {
-                            world.setBlockState(newPos, PETRIFIED_TILE.getBlock().getDefaultState());
-                            PetrifiedTile pT = (PetrifiedTile) world.getTileEntity(newPos);
-                            if (pT != null) {
-                                pT.setTileEntity(tile);
+                            if(!tile.getBlockState().getBlock().equals(ENTITY_STATUE.get())) {
+                                world.setBlockState(newPos, PETRIFIED_TILE.getBlock().getDefaultState());
+                                PetrifiedTile pT = (PetrifiedTile) world.getTileEntity(newPos);
+                                if (pT != null) {
+                                    pT.setTileEntity(tile);
+                                }
                             }
                         }
                     }
@@ -91,8 +93,30 @@ public class StaticMethodHandler {
         }
     }
 
-    public static void areaUnpetrification(){
-
+    public static void areaUnpetrification(World world, BlockPos pos,int area, int height){
+        for (int x = -area; x <= area; ++x) {
+            for (int z = -area; z <= area; ++z) {
+                for (int y = -height; y <= height; ++y) {
+                    BlockPos newPos = pos.add(x, y, z);
+                    if (!world.getBlockState(newPos).isAir()) {
+                        BlockState state = world.getBlockState(newPos);
+                        Block block = state.getBlock();
+                        TileEntity tile = world.getTileEntity(newPos);
+                        if (block.equals(Blocks.COARSE_DIRT)) {
+                            world.setBlockState(newPos, Blocks.DIRT.getDefaultState());
+                        } else if(tile instanceof PetrifiedTile){
+                            PetrifiedTile pT = (PetrifiedTile) tile;
+                            pT.setTileOnRevive();
+                        } else if(tile instanceof StatueTile){
+                            StatueTile sT = (StatueTile) tile;
+                            if(!sT.isPlayer()){
+                               sT.revivifyEntity();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static void petrifyPos(World world, BlockPos pos) {

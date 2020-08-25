@@ -4,6 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -13,19 +15,43 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
+import java.util.List;
+import java.util.UUID;
+
 import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
 
 public class StatueTile extends TileEntity {
 
+    private boolean isPlayer;
     private LivingEntity entity;
+    private UUID player;
     private CompoundNBT nbt;
-    private CompoundNBT inventory;
+    private List<ItemStack> mainInventory;
+    private List<ItemStack> armorInventory;
 
     public StatueTile() {
         super(ENTITY_STATUE.getTileEntityType());
     }
 
     public LivingEntity getEntity() {
+        if(isPlayer){
+            PlayerEntity player = world.getPlayerByUuid(this.player);
+            if(player != null) {
+                PlayerEntity newPlayer = new PlayerEntity(world, pos, player.rotationYaw, player.getGameProfile()) {
+                    @Override
+                    public boolean isSpectator() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isCreative() {
+                        return false;
+                    }
+                };
+                newPlayer.deserializeNBT(nbt);
+                return newPlayer;
+            }
+        }
         if(entity == null && nbt != null){
             if(world != null) {
                 EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("typeID")));
@@ -38,13 +64,25 @@ public class StatueTile extends TileEntity {
         return entity;
     }
 
-    public CompoundNBT getInventory() {
-        return inventory;
+    public void setEntity(LivingEntity entity) {
+        if(entity instanceof PlayerEntity){
+            isPlayer = true;
+            PlayerEntity player = ((PlayerEntity) entity);
+            this.player = player.getUniqueID();
+            this.mainInventory.addAll(player.inventory.mainInventory);
+            this.armorInventory.addAll(player.inventory.armorInventory);
+        }else {
+            this.entity = entity;
+        }
+        updateStatueInternal();
     }
 
-    public void setEntity(LivingEntity entity) {
-        updateStatueInternal();
-        this.entity = entity;
+    public boolean isPlayer() {
+        return isPlayer;
+    }
+
+    public void revivifyEntity(){
+
     }
 
     private void updateStatueInternal(){
@@ -71,7 +109,6 @@ public class StatueTile extends TileEntity {
         CompoundNBT nbt = new CompoundNBT();
         nbt.put("entity",getEntity().serializeNBT());
         nbt.putString("typeID",getEntity().getType().getRegistryName().toString());
-        nbt.put("inventory",getInventory());
         return nbt;
     }
 
@@ -79,14 +116,12 @@ public class StatueTile extends TileEntity {
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         nbt = tag.getCompound("entity");
         nbt.putString("typeID",nbt.getString("typeID"));
-        inventory = tag.getCompound("inventory");
         updateStatueInternal();
     }
 
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
         this.nbt = nbt.getCompound("entity");
-        this.inventory = nbt.getCompound("inventory");
         nbt.putString("typeID",nbt.getString("typeID"));
         super.read(state, nbt);
     }
@@ -94,7 +129,6 @@ public class StatueTile extends TileEntity {
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         compound.put("entity", getEntity().serializeNBT());
-        compound.put("inventory",getInventory());
         compound.putString("typeID",getEntity().getType().getRegistryName().toString());
         return super.write(compound);
     }

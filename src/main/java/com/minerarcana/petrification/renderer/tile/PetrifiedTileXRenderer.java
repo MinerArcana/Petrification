@@ -16,12 +16,12 @@ public class PetrifiedTileXRenderer extends TileEntityRenderer<PetrifiedTile> {
 
     @Override
     public void render(PetrifiedTile tile, float partialTicks, MatrixStack stack, IRenderTypeBuffer buf, int combinedLight, int combinedOverlay) {
-        if (tile.getTile() != null) {
+        if (tile.getTileBlock() != null) {
             BlockRendererDispatcher blockRender = Minecraft.getInstance().getBlockRendererDispatcher();
             stack.push();
             stack.translate(0, 0, 0);
             stack.scale(1, 1, 1);
-            blockRender.renderBlock(tile.getBlockState(), stack, buf, combinedLight, combinedOverlay);
+            blockRender.renderBlock(tile.getTileBlock().getDefaultState(), stack, buf, combinedLight, combinedOverlay);
             stack.pop();
         }
     }

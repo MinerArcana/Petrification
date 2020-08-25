@@ -1,5 +1,6 @@
 package com.minerarcana.petrification;
 
+import com.minerarcana.petrification.renderer.tile.PetrifiedTileXRenderer;
 import com.minerarcana.petrification.renderer.tile.StatueRenderer;
 import com.minerarcana.petrification.content.*;
 import com.minerarcana.petrification.renderer.entity.CockatriceRenderer;
@@ -20,8 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
-import static com.minerarcana.petrification.content.PetrificationBlocks.ENTITY_STATUE;
-import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NEST;
+import static com.minerarcana.petrification.content.PetrificationBlocks.*;
 import static com.minerarcana.petrification.content.PetrificationEntities.COCKATRICE;
 
 @Mod(MOD_ID)
@@ -50,6 +50,7 @@ public class Petrification
     private void doClientStuff(final FMLClientSetupEvent event) {
         //TileEntity Renderer
         ClientRegistry.bindTileEntityRenderer(ENTITY_STATUE.getTileEntityType(), StatueRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(PETRIFIED_TILE.getTileEntityType(), PetrifiedTileXRenderer::new);
 
         //Block Render
         RenderType cutout = RenderType.getCutout();

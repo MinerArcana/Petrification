@@ -1,5 +1,6 @@
 package com.minerarcana.petrification.tileentities;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -10,31 +11,50 @@ import static com.minerarcana.petrification.content.PetrificationBlocks.PETRIFIE
 
 public class PetrifiedTile extends TileEntity {
 
-    private TileEntity tileEntity;
+    private Block tileBlock;
+    private CompoundNBT tileNBT;
 
     public PetrifiedTile() {
         super(PETRIFIED_TILE.getTileEntityType());
     }
 
     public void setTileEntity(TileEntity tileEntity) {
-        this.tileEntity = tileEntity;
+        this.tileBlock = tileEntity.getBlockState().getBlock();
+        this.tileNBT = tileEntity.serializeNBT();
     }
 
-    public TileEntity getTile() {
-        return tileEntity;
+    public Block getTileBlock() {
+        return tileBlock;
+    }
+
+    public CompoundNBT getTileNBT(){
+        return tileNBT;
+    }
+
+    public void setTileOnRevive(){
+        if(world != null) {
+            world.setBlockState(pos, getTileBlock().getDefaultState());
+            TileEntity tile = world.getTileEntity(pos);
+            if(tile != null) {
+                tile.deserializeNBT(getTileNBT());
+            }
+        }
     }
 
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
-        setTileEntity(ForgeRegistries.TILE_ENTITIES.getValue(new ResourceLocation(nbt.getString("tileEntity"))).create());
-        tileEntity.deserializeNBT(nbt);
+        tileNBT = nbt.getCompound("tileNBT");
+        tileBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("block")));
         super.read(state, nbt);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        compound.putString("tileEntity",getTile().getType().getRegistryName().toString());
-        compound.put("tileNBT",tileEntity.serializeNBT());
+        compound.put("tileNBT", getTileNBT());
+        compound.putString("block",getTileBlock().getRegistryName().toString());
         return super.write(compound);
     }
+
+
+
 }

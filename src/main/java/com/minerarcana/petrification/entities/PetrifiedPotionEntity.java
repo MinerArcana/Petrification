@@ -39,7 +39,7 @@ public class PetrifiedPotionEntity extends PotionEntity {
         if (!this.world.isRemote) {
             ItemStack itemstack = this.getItem();
             if (itemstack.getItem() instanceof PetrifiedSplashPotion) {
-                EffectInstance effect = ((PetrifiedSplashPotion) itemstack.getItem()).getPotionEffect().get();
+                EffectInstance effect = ((PetrifiedSplashPotion) itemstack.getItem()).getPotion().getEffects().get(0);
                 if (this.isLingering()) {
                     this.makeAreaOfEffectCloud(itemstack, effect);
                 } else {

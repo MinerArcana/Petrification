@@ -30,11 +30,11 @@ import static com.minerarcana.petrification.content.PetrificationEffects.PETRIFI
 
 public class PetrifiedSplashPotion extends PotionItem {
 
-    private final Supplier<EffectInstance> potionEffect;
+    private final Supplier<Potion> potion;
 
-    public PetrifiedSplashPotion(int amplifier) {
+    public PetrifiedSplashPotion(Supplier<Potion> potion) {
         super(new Item.Properties().maxStackSize(1).group(ItemGroup.BREWING));
-        this.potionEffect = () -> new EffectInstance(getEffect(), 600, amplifier);
+        this.potion = potion;
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand handIn) {
@@ -53,20 +53,12 @@ public class PetrifiedSplashPotion extends PotionItem {
         return ActionResult.func_233538_a_(itemstack, world.isRemote());
     }
 
-    public Effect getEffect(){
-        return PETRIFICATION.get();
-    }
-
     public PotionEntity getPotionEntity(World world, PlayerEntity player){
         return new PetrifiedPotionEntity(world, player);
     }
 
-    public Potion getPotion(){
-        return PetrificationPotions.PETRIFICATION_POTION.get();
-    }
-
-    public Supplier<EffectInstance> getPotionEffect() {
-        return potionEffect;
+    public Potion getPotion() {
+        return potion.get();
     }
 
     @Override
@@ -87,8 +79,7 @@ public class PetrifiedSplashPotion extends PotionItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        List<EffectInstance> list = new ArrayList<>();
-        list.add(getPotionEffect().get());
+        List<EffectInstance> list = getPotion().getEffects();
         List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
 
         for (EffectInstance effectinstance : list) {

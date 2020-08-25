@@ -40,12 +40,12 @@ public class RevivifyPotionEntity extends PotionEntity {
         if (!this.world.isRemote) {
             ItemStack itemstack = this.getItem();
             if (itemstack.getItem() instanceof RevivifiedSplashPotion) {
-                EffectInstance effect = ((RevivifiedSplashPotion) itemstack.getItem()).getPotionEffect().get();
+                EffectInstance effect = ((RevivifiedSplashPotion) itemstack.getItem()).getPotion().getEffects().get(0);
                 if (this.isLingering()) {
                     this.makeAreaOfEffectCloud(itemstack, effect);
                 } else {
                     this.applyEffect(effect, result.getType() == RayTraceResult.Type.ENTITY ? ((EntityRayTraceResult) result).getEntity() : null);
-                    areaUnpetrification();
+                    areaUnpetrification(world, this.getPosition(), 3, 1);
                 }
             }
         }

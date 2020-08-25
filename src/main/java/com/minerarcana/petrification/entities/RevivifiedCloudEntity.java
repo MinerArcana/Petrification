@@ -17,6 +17,6 @@ public class RevivifiedCloudEntity extends PetrificationCloudEntity {
 
     @Override
     public void extraCloudStuff() {
-        areaUnpetrification();
+        areaUnpetrification(world,getPosition(),3, 1);
     }
 }

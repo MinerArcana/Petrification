@@ -21,6 +21,6 @@ public class RevivifyEffect extends Effect {
 
     @Override
     public boolean isReady(int duration, int amplifier) {
-        return duration >= 20;
+        return duration <= 20;
     }
 }
