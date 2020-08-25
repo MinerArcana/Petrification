@@ -42,7 +42,7 @@ public class StoneNestBlock extends Block {
         if(state.get(EGG)){
             return VoxelShapes.or(EGG_EMPTY_SHAPE,EGG_FULL_SHAPE);
         }
-        return VoxelShapes.or(EGG_EMPTY_SHAPE,Block.makeCuboidShape(5D, 1D, 5D, 11.0D, 6D, 11.0D));
+        return EGG_EMPTY_SHAPE;
     }
 
     @Override

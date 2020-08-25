@@ -17,7 +17,7 @@ import static com.minerarcana.petrification.content.PetrificationBlocks.STONE_NE
 public class StoneNestItem extends BlockItem {
 
     public StoneNestItem(Block block) {
-        super(block,new Properties().group(PG).maxStackSize(1));
+        super(block, new Properties().group(PG).maxStackSize(1));
     }
 
     @Override
@@ -25,14 +25,18 @@ public class StoneNestItem extends BlockItem {
         PlayerEntity player = context.getPlayer();
         World world = context.getWorld();
         BlockPos pos = context.getPos();
-        ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-        if (!world.isRemote) {
-            if(itemstack.hasTag() && itemstack.getTag() != null){
-                CompoundNBT nbt = itemstack.getTag();
-                if(nbt.getBoolean("egg")){
-                    world.setBlockState(pos, STONE_NEST.get().getDefaultState().with(EGG,true));
-                }else{
-                    world.setBlockState(pos, STONE_NEST.get().getDefaultState().with(EGG,false));
+        Hand hand = context.getHand();
+        if (player != null) {
+            ItemStack itemstack = player.getHeldItem(hand);
+            if (!world.isRemote) {
+                if (itemstack.hasTag() && itemstack.getTag() != null) {
+                    CompoundNBT nbt = itemstack.getTag();
+                    if (nbt.getBoolean("egg")) {
+                        world.setBlockState(pos, STONE_NEST.get().getDefaultState().with(EGG, true));
+                    } else {
+                        world.setBlockState(pos, STONE_NEST.get().getDefaultState().with(EGG, false));
+                    }
+                    return ActionResultType.CONSUME;
                 }
             }
         }
