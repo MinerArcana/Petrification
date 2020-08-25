@@ -1,7 +1,6 @@
 package com.minerarcana.petrification.item;
 
 import com.google.common.collect.Lists;
-import com.minerarcana.petrification.content.PetrificationPotions;
 import com.minerarcana.petrification.entities.PetrifiedPotionEntity;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,12 +20,9 @@ import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import static com.minerarcana.petrification.content.PetrificationEffects.PETRIFICATION;
 
 public class PetrifiedSplashPotion extends PotionItem {
 
@@ -130,5 +126,11 @@ public class PetrifiedSplashPotion extends PotionItem {
         }
     }
 
+    public int getColour(int index){
+        if(index == 0) {
+            return getPotion().getEffects().get(0).getPotion().getLiquidColor();
+        }
+        return 16777215;
+    }
 
 }
