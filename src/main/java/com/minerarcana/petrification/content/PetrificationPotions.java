@@ -9,12 +9,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
 import static com.minerarcana.petrification.util.StaticPotionHandler.BASE_PETRIFICATION_INSTANCE;
+import static com.minerarcana.petrification.util.StaticPotionHandler.BASE_REVIVIFY_INSTANCE;
 
 public class PetrificationPotions {
 
     private static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTION_TYPES, MOD_ID);
 
-    public static final RegistryObject<Potion> PETRIFICATION_POTION = POTIONS.register("simple_petrification", () -> new Potion(BASE_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{})));
+    public static final RegistryObject<Potion> PETRIFICATION_POTION = POTIONS.register("petrification", () -> new Potion(BASE_PETRIFICATION_INSTANCE.toArray(new EffectInstance[]{})));
+    public static final RegistryObject<Potion> REVIVIFY_POTION = POTIONS.register("revivify", () -> new Potion(BASE_REVIVIFY_INSTANCE.toArray(new EffectInstance[]{})));
 
     public static void register(IEventBus modBus) {
         POTIONS.register(modBus);

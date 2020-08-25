@@ -265,7 +265,7 @@ public class PetrificationCloudEntity extends Entity {
                                             livingentity.addPotionEffect(new EffectInstance(effectinstance));
                                         }
                                     }
-                                    areaPetrification(world, this.getPosition(), 3, 1);
+                                    extraCloudStuff();
                                     if (this.radiusOnUse != 0.0F) {
                                         f += this.radiusOnUse;
                                         if (f < 0.5F) {
@@ -290,7 +290,10 @@ public class PetrificationCloudEntity extends Entity {
                 }
             }
         }
+    }
 
+    public void extraCloudStuff(){
+        areaPetrification(world, this.getPosition(), 3, 1);
     }
 
     public void setRadiusOnUse(float radiusOnUseIn) {

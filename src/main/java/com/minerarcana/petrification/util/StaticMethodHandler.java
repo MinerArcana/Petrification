@@ -91,6 +91,10 @@ public class StaticMethodHandler {
         }
     }
 
+    public static void areaUnpetrification(){
+
+    }
+
     public static void petrifyPos(World world, BlockPos pos) {
         if (!world.getBlockState(pos).isAir()) {
             BlockState state = world.getBlockState(pos);

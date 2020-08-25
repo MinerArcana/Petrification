@@ -13,10 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectUtils;
-import net.minecraft.potion.PotionUtils;
+import net.minecraft.potion.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
@@ -37,23 +34,35 @@ public class PetrifiedSplashPotion extends PotionItem {
 
     public PetrifiedSplashPotion(int amplifier) {
         super(new Item.Properties().maxStackSize(1).group(ItemGroup.BREWING));
-        this.potionEffect = () -> new EffectInstance(PETRIFICATION.get(), 600, amplifier);
+        this.potionEffect = () -> new EffectInstance(getEffect(), 600, amplifier);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        if (!worldIn.isRemote) {
-            PotionEntity potionentity = new PetrifiedPotionEntity(worldIn, playerIn);
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand handIn) {
+        ItemStack itemstack = player.getHeldItem(handIn);
+        if (!world.isRemote) {
+            PotionEntity potionentity = getPotionEntity(world, player);
             potionentity.setItem(itemstack);
-            potionentity.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, -20.0F, 0.5F, 1.0F);
-            worldIn.addEntity(potionentity);
+            potionentity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            world.addEntity(potionentity);
         }
 
-        if (!playerIn.abilities.isCreativeMode) {
+        if (!player.abilities.isCreativeMode) {
             itemstack.shrink(1);
         }
 
-        return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
+        return ActionResult.func_233538_a_(itemstack, world.isRemote());
+    }
+
+    public Effect getEffect(){
+        return PETRIFICATION.get();
+    }
+
+    public PotionEntity getPotionEntity(World world, PlayerEntity player){
+        return new PetrifiedPotionEntity(world, player);
+    }
+
+    public Potion getPotion(){
+        return PetrificationPotions.PETRIFICATION_POTION.get();
     }
 
     public Supplier<EffectInstance> getPotionEffect() {
@@ -63,13 +72,13 @@ public class PetrifiedSplashPotion extends PotionItem {
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            items.add(PotionUtils.addPotionToItemStack(new ItemStack(this), PetrificationPotions.PETRIFICATION_POTION.get()));
+            items.add(PotionUtils.addPotionToItemStack(new ItemStack(this), getPotion()));
         }
     }
 
     @Override
     public ItemStack getDefaultInstance() {
-        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PetrificationPotions.PETRIFICATION_POTION.get());
+        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), getPotion());
     }
 
     public String getTranslationKey(ItemStack stack) {

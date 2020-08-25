@@ -1,7 +1,9 @@
 package com.minerarcana.petrification.entities;
 
-import com.minerarcana.petrification.item.PetrifiedSplashPotion;
-import net.minecraft.entity.*;
+import com.minerarcana.petrification.item.RevivifiedSplashPotion;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PotionEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -16,20 +18,19 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.minerarcana.petrification.content.PetrificationEffects.PETRIFICATION;
-import static com.minerarcana.petrification.util.StaticMethodHandler.areaPetrification;
+import static com.minerarcana.petrification.util.StaticMethodHandler.areaUnpetrification;
 
-public class PetrifiedPotionEntity extends PotionEntity {
+public class RevivifyPotionEntity extends PotionEntity {
 
-    public PetrifiedPotionEntity(EntityType<? extends PotionEntity> typeIn, World worldIn) {
+    public RevivifyPotionEntity(EntityType<? extends PotionEntity> typeIn, World worldIn) {
         super(typeIn, worldIn);
     }
 
-    public PetrifiedPotionEntity(World worldIn, LivingEntity livingEntityIn) {
+    public RevivifyPotionEntity(World worldIn, LivingEntity livingEntityIn) {
         super(worldIn, livingEntityIn);
     }
 
-    public PetrifiedPotionEntity(World worldIn, double x, double y, double z) {
+    public RevivifyPotionEntity(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
     }
 
@@ -38,13 +39,13 @@ public class PetrifiedPotionEntity extends PotionEntity {
         super.onImpact(result);
         if (!this.world.isRemote) {
             ItemStack itemstack = this.getItem();
-            if (itemstack.getItem() instanceof PetrifiedSplashPotion) {
-                EffectInstance effect = ((PetrifiedSplashPotion) itemstack.getItem()).getPotionEffect().get();
+            if (itemstack.getItem() instanceof RevivifiedSplashPotion) {
+                EffectInstance effect = ((RevivifiedSplashPotion) itemstack.getItem()).getPotionEffect().get();
                 if (this.isLingering()) {
                     this.makeAreaOfEffectCloud(itemstack, effect);
                 } else {
                     this.applyEffect(effect, result.getType() == RayTraceResult.Type.ENTITY ? ((EntityRayTraceResult) result).getEntity() : null);
-                    areaPetrification(world, this.getPosition(), 3, 1);
+                    areaUnpetrification();
                 }
             }
         }
@@ -85,12 +86,7 @@ public class PetrifiedPotionEntity extends PotionEntity {
                         Effect effect = effectInstance.getPotion();
                         int i = (int) (d1 * (double) effectInstance.getDuration() + 0.5D);
                         if (i > 20) {
-                            if (livingentity.isPotionActive(PETRIFICATION.get())) {
-                                int currentAmp = livingentity.getActivePotionEffect(PETRIFICATION.get()).getAmplifier();
-                                livingentity.addPotionEffect(new EffectInstance(effect, i, effectInstance.getAmplifier() + 1 + currentAmp, effectInstance.isAmbient(), effectInstance.doesShowParticles()));
-                            } else {
-                                livingentity.addPotionEffect(new EffectInstance(effect, i, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.doesShowParticles()));
-                            }
+                            livingentity.addPotionEffect(new EffectInstance(effect, i, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.doesShowParticles()));
                         }
                     }
                 }
