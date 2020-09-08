@@ -7,6 +7,9 @@ import com.minerarcana.petrification.tileentities.StatueTile;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.potion.EffectInstance;
@@ -161,5 +164,8 @@ public class StaticMethodHandler {
         return posList;
     }
 
+    public static AttributeModifierMap.MutableAttribute petrifiedAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.0D);
+    }
 
 }

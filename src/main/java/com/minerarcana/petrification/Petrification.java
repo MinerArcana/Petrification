@@ -1,5 +1,6 @@
 package com.minerarcana.petrification;
 
+import com.minerarcana.petrification.renderer.entity.PetrifiedPlayerRenderer;
 import com.minerarcana.petrification.renderer.tile.PetrifiedTileXRenderer;
 import com.minerarcana.petrification.renderer.tile.StatueRenderer;
 import com.minerarcana.petrification.content.*;
@@ -28,13 +29,14 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.system.CallbackI;
 
 import static com.minerarcana.petrification.Petrification.MOD_ID;
 import static com.minerarcana.petrification.content.PetrificationBlocks.*;
 import static com.minerarcana.petrification.content.PetrificationEntities.COCKATRICE;
+import static com.minerarcana.petrification.content.PetrificationEntities.PETRIFIED_PLAYER;
 import static com.minerarcana.petrification.content.PetrificationItems.*;
 import static com.minerarcana.petrification.content.PetrificationPotions.*;
+import static com.minerarcana.petrification.util.StaticMethodHandler.petrifiedAttributes;
 
 @Mod(MOD_ID)
 public class Petrification
@@ -52,11 +54,12 @@ public class Petrification
         PetrificationPotions.register(bus);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-
+        MinecraftForge.EVENT_BUS.addListener(this::serverStartUp);
         MinecraftForge.EVENT_BUS.register(this);
     }
     private void setup(final FMLCommonSetupEvent event) {
         GlobalEntityTypeAttributes.put(COCKATRICE.get(), ChickenEntity.func_234187_eI_().create());
+        GlobalEntityTypeAttributes.put(PETRIFIED_PLAYER.get(), petrifiedAttributes().create());
     }
 
     private void serverStartUp(final FMLServerStartingEvent event){
@@ -70,7 +73,6 @@ public class Petrification
         BrewingRecipeRegistry.addRecipe(PotionIngredient.asPotion(PETRIFICATION_POTION6.get()), Ingredient.fromItems(Items.GLOWSTONE), potionToItemStack(PETRIFICATION_POTION7.get()));
         BrewingRecipeRegistry.addRecipe(PotionIngredient.asPotion(PETRIFICATION_POTION7.get()), Ingredient.fromItems(Items.GLOWSTONE), potionToItemStack(PETRIFICATION_POTION8.get()));
         BrewingRecipeRegistry.addRecipe(PotionIngredient.asPotion(PETRIFICATION_POTION8.get()), Ingredient.fromItems(Items.GLOWSTONE), potionToItemStack(PETRIFICATION_POTION9.get()));
-
 
 
         //Splash Recipes
@@ -101,6 +103,7 @@ public class Petrification
 
         //Entity Renderer
         RenderingRegistry.registerEntityRenderingHandler(COCKATRICE.get(), CockatriceRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(PETRIFIED_PLAYER.get(), PetrifiedPlayerRenderer::new);
     }
 
     private static ItemStack potionToItemStack(Potion potion) {

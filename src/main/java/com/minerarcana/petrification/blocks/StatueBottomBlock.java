@@ -41,11 +41,11 @@ public class StatueBottomBlock extends Block {
         TileEntity tile = world.getTileEntity(pos);
         if(tile instanceof StatueTile){
             StatueTile statue = (StatueTile) tile;
-            if(statue.getEntity() != player){
-                Collection<ItemEntity> drops = statue.getEntity().captureDrops(null);
+            if(!statue.isPlayer()){
+                Collection<ItemEntity> drops = statue.getInternalEntity().captureDrops(null);
                 for(int x = 0; x<2;++x)
                 drops.add(new ItemEntity(world,pos.getX(),pos.getY(),pos.getZ(),Items.STONE.getDefaultInstance()));
-                if (!net.minecraftforge.common.ForgeHooks.onLivingDrops(statue.getEntity(), new DamageSource("statue"), drops, 1, true))
+                if (!net.minecraftforge.common.ForgeHooks.onLivingDrops(statue.getInternalEntity(), new DamageSource("statue"), drops, 1, true))
                     drops.forEach(world::addEntity);
             }else{
 

@@ -17,14 +17,14 @@ public class StatueRenderer extends TileEntityRenderer<StatueTile> {
 
     @Override
     public void render(StatueTile tileEntityIn, float partialTicks, MatrixStack matrixstack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if(tileEntityIn.getEntity() != null) {
+        if(tileEntityIn.getInternalEntity() != null) {
             RenderSystem.pushMatrix();
             RenderSystem.scalef(1.0F, 1.0F, 1.0F);
             matrixstack.scale((float) 1, (float) 1, (float) 1);
             EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
             entityrenderermanager.setRenderShadow(false);
             IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-            entityrenderermanager.renderEntityStatic(tileEntityIn.getEntity(), 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack, irendertypebuffer$impl, 15728880);
+            entityrenderermanager.renderEntityStatic(tileEntityIn.getInternalEntity(), 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack, irendertypebuffer$impl, 15728880);
             entityrenderermanager.setRenderShadow(true);
             irendertypebuffer$impl.finish();
             RenderSystem.popMatrix();
